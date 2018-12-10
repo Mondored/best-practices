@@ -4,8 +4,8 @@ namespace Grasshopper
 {
     class Grasshopper
     {
-        private int position;
-        private List<int> leaves;
+        private int _position;
+        private List<int> _leaves;
         /// <summary>
         /// Initialization of view field with n leaves and grasshopper on leaf 'position'.
         /// </summary>
@@ -13,10 +13,10 @@ namespace Grasshopper
         /// <param name="position">Position.</param>
         public Grasshopper(int n, int position)
         {
-            this.leaves = new List<int>();
+            this._leaves = new List<int>();
             for (int i = 0; i < n; i++)
             {
-                leaves.Add(i + 1);
+                _leaves.Add(i + 1);
             }
             //for debug
             //foreach (var item in leaves)
@@ -24,7 +24,7 @@ namespace Grasshopper
             //    Console.Write(item + "\n");
             //}
             //Console.Write("--------------------------------\n");
-            this.position = position;
+            this._position = position;
         }
 
         /// <summary>
@@ -32,11 +32,11 @@ namespace Grasshopper
         /// </summary>
         public void EatAndHopLeft()
         {
-            if (leaves.IndexOf(position) - 2 >= 0)
+            if (_leaves.IndexOf(_position) - 2 >= 0)
             {
-                int newPosition = int.Parse(leaves.ToArray().GetValue(leaves.IndexOf(position) - 2).ToString());
-                leaves.RemoveAt(leaves.IndexOf(position));
-                position = newPosition;
+                int newPosition = int.Parse(_leaves.ToArray().GetValue(_leaves.IndexOf(_position) - 2).ToString());
+                _leaves.RemoveAt(_leaves.IndexOf(_position));
+                _position = newPosition;
                 //for debug
                 //foreach (var item in leaves)
                 //{
@@ -50,11 +50,11 @@ namespace Grasshopper
         /// </summary>
         public void EatAndHopRight()
         {
-            if (leaves.Count > leaves.IndexOf(position) + 2)
+            if (_leaves.Count > _leaves.IndexOf(_position) + 2)
             {
-                int newPosition = int.Parse(leaves.ToArray().GetValue(leaves.IndexOf(position) + 2).ToString());
-                leaves.RemoveAt(leaves.IndexOf(position));
-                position = newPosition;
+                int newPosition = int.Parse(_leaves.ToArray().GetValue(_leaves.IndexOf(_position) + 2).ToString());
+                _leaves.RemoveAt(_leaves.IndexOf(_position));
+                _position = newPosition;
                 //for debug
                 //foreach (var item in leaves)
                 //{
@@ -66,7 +66,7 @@ namespace Grasshopper
         /// <returns>Leaf number that grasshopper is feeding on right now.</returns>
         public int WhereAmI()
         {
-            return position;
+            return _position;
         }
     }
 }
