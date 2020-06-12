@@ -23,13 +23,25 @@ namespace DeskBooker.Core.Processor
                 throw new ArgumentNullException(nameof(request));
             }
 
+            var result = Create<DeskBookingResult>(request);
             var availableDesks = _deskRepository.GetAvailableDesks(request.Date);
-            if (availableDesks.Count() > 0)
+
+            if (availableDesks.FirstOrDefault() is Desk availableDesk)
             {
-                _deskBookRepository.Save(Create<DeskBooking>(request));
+                var deskBooking = Create<DeskBooking>(request);
+                deskBooking.DeskId = availableDesk.Id;
+
+                _deskBookRepository.Save(deskBooking);
+
+                result.DeskBookingId = deskBooking.Id;
+                result.Code = DeskBookingResultCode.Success;
+            }
+            else
+            {
+                result.Code = DeskBookingResultCode.NoDeskAvailable;
             }
 
-            return Create<DeskBookingResult>(request);
+            return result;
         }
 
         private static T Create<T>(DeskBookingRequest request) where T : DeskBookingBase, new()
