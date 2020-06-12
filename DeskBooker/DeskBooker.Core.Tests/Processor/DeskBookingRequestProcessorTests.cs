@@ -95,8 +95,8 @@ namespace DeskBooker.Core.Processor
 
         //Data driven test
         [Theory]
-        [InlineData(DeskBookingResultCode.Success,true)]
-        [InlineData(DeskBookingResultCode.NoDeskAvailable,false)]
+        [InlineData(DeskBookingResultCode.Success, true)]
+        [InlineData(DeskBookingResultCode.NoDeskAvailable, false)]
         public void ShouldReturnExpectedResultCode(
             DeskBookingResultCode expectedResultCode, bool isDeskAvailable)
         {
