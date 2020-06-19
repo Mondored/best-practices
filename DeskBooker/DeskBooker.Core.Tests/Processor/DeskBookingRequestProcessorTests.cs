@@ -1,11 +1,12 @@
 ﻿using DeskBooker.Core.DataInterface;
 using DeskBooker.Core.Domain;
+using FluentAssertions;
+using FluentAssertions.Execution;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using FluentAssertions;
 
 namespace DeskBooker.Core.Processor
 {
@@ -62,11 +63,15 @@ namespace DeskBooker.Core.Processor
         public void ShouldThrowExceptionIfRequestIsNull()
         {
             // Assert
-            var exception = Assert.Throws<ArgumentNullException>(
-                () => _processor.BookDesk(null));
+            //var exception = Assert.Throws<ArgumentNullException>(
+            //    () => _processor.BookDesk(null));
+            Action act = () => _processor.BookDesk(null);
+
+            act.Should().Throw<ArgumentNullException>()
+                .And
+                .ParamName.Should().Be("request");
 
             //Assert.Equal("request", exception.ParamName);
-            exception.ParamName.Should().Be("request");
         }
 
         [Fact]
@@ -83,18 +88,21 @@ namespace DeskBooker.Core.Processor
 
             _deskBookingRepositoryMock.Verify(x => x.Save(It.IsAny<DeskBooking>()), Times.Once);
 
-            //Assert.NotNull(savedDeskBooking);
-            savedDeskBooking.Should().NotBeNull();
-            //Assert.Equal(_request.FirstName, savedDeskBooking.FirstName);
-            savedDeskBooking.FirstName.Should().Be(_request.FirstName);
-            //Assert.Equal(_request.LastName, savedDeskBooking.LastName);
-            savedDeskBooking.LastName.Should().Be(_request.LastName);
-            //Assert.Equal(_request.Email, savedDeskBooking.Email);
-            savedDeskBooking.Email.Should().Be(_request.Email, because: "Email address must be correct");
-            //Assert.Equal(_request.Date, savedDeskBooking.Date);
-            savedDeskBooking.Date.Should().BeSameDateAs(_request.Date);
-            //Assert.Equal(_availableDesks.First().Id, savedDeskBooking.DeskId);
-            savedDeskBooking.DeskId.Should().Be(_availableDesks.First().Id);
+            using (new AssertionScope())
+            {
+                //Assert.NotNull(savedDeskBooking);
+                savedDeskBooking.Should().NotBeNull();
+                //Assert.Equal(_request.FirstName, savedDeskBooking.FirstName);
+                savedDeskBooking.FirstName.Should().Be(_request.FirstName);
+                //Assert.Equal(_request.LastName, savedDeskBooking.LastName);
+                savedDeskBooking.LastName.Should().Be(_request.LastName);
+                //Assert.Equal(_request.Email, savedDeskBooking.Email);
+                savedDeskBooking.Email.Should().Be(_request.Email, because: "Email address must be correct");
+                //Assert.Equal(_request.Date, savedDeskBooking.Date);
+                savedDeskBooking.Date.Should().BeSameDateAs(_request.Date);
+                //Assert.Equal(_availableDesks.First().Id, savedDeskBooking.DeskId);
+                savedDeskBooking.DeskId.Should().Be(_availableDesks.First().Id);
+            }
         }
 
         [Fact]
