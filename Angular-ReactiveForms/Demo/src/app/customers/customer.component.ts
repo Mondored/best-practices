@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators'
 
 import { Customer } from './customer';
@@ -20,7 +20,7 @@ function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
 
 function ratingRange(min: number, max: number): ValidatorFn {
   return (c: AbstractControl): { [key: string]: boolean } | null => {
-    if (c.value !== null && (isNaN(c.value) || c.value < min || c.value > max )) {
+    if (c.value !== null && (isNaN(c.value) || c.value < min || c.value > max)) {
       return { 'range': true };
     }
     return null;
@@ -36,26 +36,31 @@ export class CustomerComponent implements OnInit {
   customerForm: FormGroup;
   customer = new Customer();
   emailMessage: string;
+  
+  get addresses(): FormArray{
+    return <FormArray>this.customerForm.get('addresses');
+  }
 
   private validationMessages = {
     required: 'Please enter your email address.',
     email: 'Please enter a valid email address.'
   };
 
-  constructor(private formBuilder:FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.customerForm = this.formBuilder.group({
-      firstName: ['', [ Validators.required, Validators.maxLength(3) ] ],
-      lastName: ['', [ Validators.required, Validators.maxLength(50) ] ],
+      firstName: ['', [Validators.required, Validators.maxLength(3)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
       emailGroup: this.formBuilder.group({
-        email: ['', [ Validators.required, Validators.email ] ],
-        confirmEmail: ['', [ Validators.required ] ]
-      }, { validator: emailMatcher}),
+        email: ['', [Validators.required, Validators.email]],
+        confirmEmail: ['', [Validators.required]]
+      }, { validator: emailMatcher }),
       phone: '',
       notification: 'email',
-      rating: [null, ratingRange(1,5)],
-      sendCatalog: true
+      rating: [null, ratingRange(1, 5)],
+      sendCatalog: true,
+      addresses: this.formBuilder.array([ this.buildAddress() ])
     });
 
     /* this.customerForm = new FormGroup({
@@ -77,6 +82,17 @@ export class CustomerComponent implements OnInit {
     );
   }
 
+  buildAddress(): FormGroup {
+    return this.formBuilder.group({
+      addressType: 'home',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      zip: ''
+    })
+  }
+
   save() {
     console.log(this.customerForm);
     console.log('Saved: ' + JSON.stringify(this.customerForm.value));
@@ -84,7 +100,7 @@ export class CustomerComponent implements OnInit {
 
   setMessage(c: AbstractControl): void {
     this.emailMessage = '';
-    if((c.touched || c.dirty) && c.errors) {
+    if ((c.touched || c.dirty) && c.errors) {
       this.emailMessage = Object.keys(c.errors).map(
         key => this.validationMessages[key]).join(' ');
     }
@@ -92,7 +108,7 @@ export class CustomerComponent implements OnInit {
 
   setNotification(notifyVia: string): void {
     const phoneControl = this.customerForm.get('phone');
-    if (notifyVia === 'text'){
+    if (notifyVia === 'text') {
       phoneControl.setValidators(Validators.required);
     } else {
       phoneControl.clearValidators();
