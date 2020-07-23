@@ -9,7 +9,7 @@ namespace Grasshopper
          * leaf X , he will move either two leaves to the left of two leaves to the right, skipping the 
          * leaves he ate. The grasshopper will always move to an existing leaf.
          * 
-         * Implement a class that models the grasshopper's behaviour and can repoort its location at
+         * Implement a class that models the grasshopper's behaviour and can report its location at
          * any time.
          * 
          * For example, new Grasshopper(5,2) creates a scenario with a row of 5 leaves (numbered 1 to 5)

@@ -7,7 +7,7 @@ namespace Arrays
     {
         static void Main(string[] args)
         {
-            List<Inputs> cList = new List<Inputs>();
+            IList<Inputs> cList = new List<Inputs>();
             cList.Add(new Inputs(3, "Blue"));
             cList.Add(new Inputs(1, "Blue"));
             cList.Add(new Inputs(2, "Blue"));
@@ -25,7 +25,7 @@ namespace Arrays
                 Console.WriteLine("{0},{1}", item.Number, item.Color);
             }
 
-            List<Inputs> outputList = new List<Inputs>();
+            IList<Inputs> outputList = new List<Inputs>();
             var counter = cList[0].Number;
             for (int i = 0; i < cList.Count-1; i++)
             {

@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ListDic_demo
 {
@@ -15,6 +15,9 @@ namespace ListDic_demo
         {
             List<Person> people = new List<Person>();
             Dictionary<string, Person> dict = new Dictionary<string, Person>();
+            ConcurrentDictionary<string, Person> seet = new ConcurrentDictionary<string, Person>();
+
+            seet.TryAdd("john", new Person() { Name = "john", Age = 2 });
 
             Person john = new Person() { Name = "John", Age = 24};
             people.Add(john);
