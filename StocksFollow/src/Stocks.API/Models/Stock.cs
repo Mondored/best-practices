@@ -6,7 +6,6 @@ namespace Stocks.API.Entities
     [Table("Stocks")]
     public class Stock
     {
-        [Key]
         public int Id { get; set; }
 
         [Key]
