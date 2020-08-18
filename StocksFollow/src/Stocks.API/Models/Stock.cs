@@ -21,5 +21,7 @@ namespace Stocks.API.Entities
         public double BasePrice { get; set; }
 
         public int Shares { get; set; }
+
+        public double? Devidend { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Stocks.API.Controllers
         {
             var value = await _context.Stocks.FirstOrDefaultAsync(
                 x => x.Id == id);
-
+            
             return Ok(value);
         }
 

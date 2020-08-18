@@ -17,9 +17,9 @@ namespace Stocks.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(StockContext));
         }
 
-        public async Task<Stock> GetStockAsync(string stockSymbol)
+        public  Task<Stock> GetStockAsync(string stockSymbol)
         {
-            return await _context.Stocks.Include(s => s.StockSymbol)
+            return  _context.Stocks.Include(s => s.StockSymbol)
                 .FirstOrDefaultAsync(s => s.StockSymbol == stockSymbol);
         }
 
