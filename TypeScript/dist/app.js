@@ -47,4 +47,3 @@ var person = {
     age: 20,
     hobbies: ['Sports', 'Cookies']
 };
-console.log(person.age);
