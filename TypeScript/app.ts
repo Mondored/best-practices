@@ -1,15 +1,27 @@
-/* const person: {
-    name: string;
-    age: number;
-} = { */
-class Department {
-    //nameOfDepartment: string;
-    private employee: string[] = [];
+const userInputElement = document.getElementById('user-input');
 
-    constructor(private readonly id: string, public nameOfDepartment: string) {
-        //this.nameOfDepartment = n;        
-    }
+if (userInputElement){
+    (userInputElement as HTMLInputElement).value = 'Hi there!';
+}
+//console.log('Input element:' + userInputElement);
 
-    describe(this: Department) {
-        console.log('Department: '+ this.nameOfDepartment);
-    }
+interface ErrorContainer {
+  [prop: string]: string;
+}
+
+const erroBag: ErrorContainer = {
+    email: 'Not a valid email',
+    username: 'Must start with a capital letter!'
+};
+
+let names: Array<string | number>;
+
+const promise: Promise<string> = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('This is done');
+  }, 2000);
+});
+
+promise.then(data => {
+  data.split('');
+})
