@@ -6,11 +6,10 @@
           <h4>Commands to run:</h4>
         </div>
         <div class="panel-body">
-          <!-- <p v-for="(command, index) in joints"
-            :key="index">{{command}}</p> -->
           <p v-for="(command, index) in commands"
             :key="index">{{command}}</p>
         </div>
+        <button class="myButton">Run</button>
       </div>
     </div>
   </div>

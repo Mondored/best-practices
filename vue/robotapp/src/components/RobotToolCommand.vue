@@ -12,7 +12,7 @@
           <option>Close</option>
         </select>
         <button class="myButton"
-          @click="addGripperCommandToList(selectedAction, selectMove),
+          @click="SET_COMMANDID(),addGripperCommandToList(selectedAction, selectMove, commandId),
                   addGripperCommand(selectedMovement)
 				">Add to the list</button>
       </li>
@@ -32,19 +32,21 @@ export default Vue.extend({
 			selectMove: Move.OPEN,
 			selectedMovement: {
         name: '',
-        movement: Move.OPEN,
+				movement: Move.OPEN,
+				commandId: 0,
 			} as ToolMove,
 		};
 	},
 	computed: {
-    ...mapGetters(['robot']),
+    ...mapGetters(['robot', 'commandId']),
 	},
 	methods: {
-		...mapMutations(['addGripperCommand']),
-		addGripperCommandToList(selectedAction: string, selectMove: Move){
+		...mapMutations(['addGripperCommand','SET_COMMANDID']),
+		addGripperCommandToList(selectedAction: string, selectMove: Move, commandId: number) {
       this.selectedMovement = {
 				name: selectedAction,
 				movement: selectMove,
+				commandId: commandId,
 			};
 		},
 	}

@@ -8,14 +8,16 @@
         </option>
       </select>
     </div>
-    <button v-if="selected !== 'default' && selectIsAvailable === true"
-      @click="updateUsedTool(selectedTool),updateTool(selected)">
-        {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
-    </button>
-    <button v-else
-      @click="removeUsedTool(),updateTool(selected)">
-        {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
-    </button>
+    <div v-if="selected !== 'default'">
+      <button v-if="selectIsAvailable === true"
+        @click="updateUsedTool(selectedTool),updateTool(selected)">
+          {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
+      </button>
+      <button v-else
+        @click="removeUsedTool(),updateTool(selected)">
+          {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
+      </button>
+    </div>
   </div>
 </template>
 

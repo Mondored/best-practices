@@ -17,6 +17,7 @@ export type Parts = {
 export type ToolMove = {
   name: string;
   movement: Move;
+  commandId?: number;
 };
 
 export enum Move {

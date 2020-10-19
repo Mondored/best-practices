@@ -8,7 +8,6 @@
     <p>Robot finger open/close command</p>
     <RobotTool/>
     <CommandToRun/>
-    <button class="myButton">Run</button>
   </div>
 </template>
 

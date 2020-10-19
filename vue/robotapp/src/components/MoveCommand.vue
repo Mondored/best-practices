@@ -9,7 +9,7 @@
       <li>z:<input v-model="command.axisZ" value="0" size="1px"/></li>
     </ul>
     <button class="myButton"
-      @click="update(command),
+      @click="SET_COMMANDID(),update(command),
               addToCommandList(dislpayCommand)
     ">Add to the list</button>
   </div>
@@ -28,22 +28,25 @@ export default Vue.extend({
         axisX: 0,
         axisY: 0,
         axisZ: 0,
+        commandId: 0,
       } as Joints,
       command: {
         id: 1,
         axisX: 0,
         axisY: 0,
         axisZ: 0,
+        commandId: 0,
       } as Joints,
       selectIsAvailable: true,
     };
   },
   computed: {
-    ...mapGetters(['robot']),
+    ...mapGetters(['robot', 'commandId']),
   },
   methods: {
-    ...mapMutations(['addToCommandList']),
+    ...mapMutations(['addToCommandList', 'SET_COMMANDID']),
     update(command: Joints) {
+      this.command.commandId = this.commandId;
       this.dislpayCommand = {...command};
     }
   }

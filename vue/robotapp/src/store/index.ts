@@ -58,7 +58,10 @@ export default new Vuex.Store({
     },
     commands: state => {
       return state.commands;
-    }
+    },
+    commandId: state => {
+      return state.commandId;
+    },
   },
   mutations: {
     addNewJoint: state => {
@@ -71,14 +74,16 @@ export default new Vuex.Store({
       state.robot.joints.push(newJoint);
     },
     addToCommandList: (state, payload: Joints) => {
+      console.log('adToCommandList:' + payload);
       state.joints.push(payload);
       state.commands.joints.push(payload);
     },
     addGripperCommand: (state, payload: ToolMove ) => {
+      console.log('addGripperCommand:' + payload);
       state.commands.move.push(payload);
     },
     updateUsedTool: (state, payload) => {
-      console.log(payload);
+      console.log('updateUsedTool:' + payload);
       state.robot.tool.parts.push(payload);
     },
     removeUsedTool: state => {
@@ -86,6 +91,10 @@ export default new Vuex.Store({
     },
     removeJoint: (state, payload: number) => {
       state.robot.joints.splice(payload, 1);
+    },
+    SET_COMMANDID: state => {
+      console.log('commandId state incremented');
+      state.commandId++;
     },
   },
   modules: {}
