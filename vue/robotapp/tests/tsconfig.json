@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "cypress",
+      "cypress-commands"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "../unit_tests"
+  ]
+}

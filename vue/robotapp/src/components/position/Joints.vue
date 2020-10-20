@@ -2,7 +2,7 @@
   <div>
     <h4>Joints position</h4>
     <ul v-for="(joint, index) in robot.joints"
-        :key="joint.id" @click.right="removeJoint(index)">
+        :key="joint.id" @click.right="SET_JOINTINDEX(index)">
       <li class="axis">Joint{{ joint.id + 1 }} (
         x: <input readonly v-model="joint.axisX" value="joint.axisX" size="1px"/>,
         y: <input readonly v-model="joint.axisY" value="joint.axisY" size="1px"/>,
@@ -23,7 +23,7 @@ export default Vue.extend({
     ...mapGetters(['robot']),
   },
   methods: {
-    ...mapMutations(['addNewJoint','removeJoint']),
+    ...mapMutations(['addNewJoint','SET_JOINTINDEX']),
   },
 });
 </script>

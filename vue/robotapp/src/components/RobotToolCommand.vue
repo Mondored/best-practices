@@ -3,7 +3,7 @@
     <ul>
       <li v-if="robot.tool.parts.length !== 0">
         <select v-model="selectedAction">
-          <option v-for="(item, name) in robot.tool.parts[0].parts[0]"
+          <option v-for="(item, name) in robot.tool.parts[0]"
             :key="name">{{name}}
           </option>
         </select>
@@ -12,8 +12,9 @@
           <option>Close</option>
         </select>
         <button class="myButton"
-          @click="SET_COMMANDID(),addGripperCommandToList(selectedAction, selectMove, commandId),
-                  addGripperCommand(selectedMovement)
+          @click="SET_COMMANDID(),
+                  addGripperCommandToList(selectedAction, selectMove, commandId),
+                  ADD_GRIPPER_COMMAND(selectedMovement)
 				">Add to the list</button>
       </li>
     </ul>
@@ -41,7 +42,7 @@ export default Vue.extend({
     ...mapGetters(['robot', 'commandId']),
 	},
 	methods: {
-		...mapMutations(['addGripperCommand','SET_COMMANDID']),
+		...mapMutations(['ADD_GRIPPER_COMMAND','SET_COMMANDID']),
 		addGripperCommandToList(selectedAction: string, selectMove: Move, commandId: number) {
       this.selectedMovement = {
 				name: selectedAction,

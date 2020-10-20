@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { Robot } from '@/data/robot';
-import { Tools, RobotHand, ToolMove } from '@/data/tool';
+import { RobotHand, ToolMove, Parts } from '@/data/tool';
 import { Joints } from '@/data/joints';
 
 Vue.use(Vuex)
@@ -28,7 +28,8 @@ export default new Vuex.Store({
           axisZ: 0,
         }] as Joints[],
       tool: {
-        parts:[]} as Tools,
+        parts:[] as Parts[]
+      } as RobotHand,
     } as Robot,
     tools: {
       parts: [{
@@ -37,7 +38,7 @@ export default new Vuex.Store({
         gripper3: true,
         gripper4: true,
         gripper5: true,
-      },]
+      },] as Parts[]
     } as RobotHand,
     joints: [] as Joints[],
     commands: {
@@ -74,26 +75,22 @@ export default new Vuex.Store({
       state.robot.joints.push(newJoint);
     },
     addToCommandList: (state, payload: Joints) => {
-      console.log('adToCommandList:' + payload);
       state.joints.push(payload);
       state.commands.joints.push(payload);
     },
-    addGripperCommand: (state, payload: ToolMove ) => {
-      console.log('addGripperCommand:' + payload);
+    ADD_GRIPPER_COMMAND: (state, payload: ToolMove ) => {
       state.commands.move.push(payload);
     },
     updateUsedTool: (state, payload) => {
-      console.log('updateUsedTool:' + payload);
-      state.robot.tool.parts.push(payload);
+      state.robot.tool.parts.push(JSON.parse(payload));
     },
     removeUsedTool: state => {
       state.robot.tool.parts.splice(0);
     },
-    removeJoint: (state, payload: number) => {
+    SET_JOINTINDEX: (state, payload: number) => {
       state.robot.joints.splice(payload, 1);
     },
     SET_COMMANDID: state => {
-      console.log('commandId state incremented');
       state.commandId++;
     },
   },

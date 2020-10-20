@@ -329,3 +329,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 TypeScript/dist/*
+vue/robotapp/package-lock.json
+vue/robotapp/package-lock.json
