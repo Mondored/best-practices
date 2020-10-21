@@ -1,17 +1,31 @@
 <template>
   <div>
-    <select class="option" v-model="command.id">
+    <select class="option" v-model="command.id" data-cy="selectJointDropDown">
       <option v-for="item in robot.joints.length" :key="item">{{item}}</option>
     </select>
-    <ul >
-      <li>x:<input v-model="command.axisX" value="0" size="1px"/></li>
-      <li>y:<input v-model="command.axisY" value="0" size="1px"/></li>
-      <li>z:<input v-model="command.axisZ" value="0" size="1px"/></li>
+    <ul>
+      <li>x:
+        <input v-model="command.axisX"
+               value="0"
+               size="1px"
+               data-cy="selectXAxis"/>
+      </li>
+      <li>y:
+        <input v-model="command.axisY"
+               value="0"
+               size="1px"
+               data-cy="selectYAxis"/>
+      </li>
+      <li>z:
+        <input v-model="command.axisZ"
+               value="0"
+               size="1px"
+               data-cy="selectZAxis"/>
+      </li>
     </ul>
     <button class="myButton"
       @click="SET_COMMANDID(),update(command),
-              addToCommandList(dislpayCommand)
-    ">Add to the list</button>
+              addToCommandList(dislpayCommand)">Add to the list</button>
   </div>
 </template>
 

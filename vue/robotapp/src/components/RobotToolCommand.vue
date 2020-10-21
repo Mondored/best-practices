@@ -2,20 +2,20 @@
   <div>
     <ul>
       <li v-if="robot.tool.parts.length !== 0">
-        <select v-model="selectedAction">
+        <select v-model="selectedAction" data-cy="selectedToolPartDropDown">
           <option v-for="(item, name) in robot.tool.parts[0]"
             :key="name">{{name}}
           </option>
         </select>
-        <select v-model="selectMove">
+        <select v-model="selectMove" data-cy="selectMoveDropDown">
           <option>Open</option>
           <option>Close</option>
         </select>
         <button class="myButton"
-          @click="SET_COMMANDID(),
-                  addGripperCommandToList(selectedAction, selectMove, commandId),
-                  ADD_GRIPPER_COMMAND(selectedMovement)
-				">Add to the list</button>
+                @click="SET_COMMANDID(),
+                        addGripperCommandToList(selectedAction, selectMove, commandId),
+                        ADD_GRIPPER_COMMAND(selectedMovement)"
+								data-cy="selectGripperCommand">Add to the list</button>
       </li>
     </ul>
   </div>

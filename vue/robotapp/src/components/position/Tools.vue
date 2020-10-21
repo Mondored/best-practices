@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <select v-if="selectIsAvailable" v-model="selected">
+      <select v-if="selectIsAvailable" v-model="selected"
+              data-cy="selectToolDropDown">
         <option disabled value="default">Please select a tool</option>
         <option v-for="part in tools.parts" :key="part.gripper1">
           {{part}}
