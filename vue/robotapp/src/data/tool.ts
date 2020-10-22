@@ -1,5 +1,5 @@
 export type Tools = {
-  parts: boolean[]; 
+  parts: Move[]; 
 };
 
 export type RobotHand = Tools &{
@@ -7,11 +7,11 @@ export type RobotHand = Tools &{
 };
 
 export type Parts = {
-  gripper1: boolean;
-  gripper2: boolean;
-  gripper3: boolean;
-  gripper4: boolean;
-  gripper5: boolean;
+  gripper1: Move;
+  gripper2: Move;
+  gripper3: Move;
+  gripper4: Move;
+  gripper5: Move;
 };
 
 export type ToolMove = {

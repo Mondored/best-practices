@@ -1,5 +1,6 @@
 <template>
   <div>
+		<p>Selected tool: {{robot.tool.parts[0]}}</p>
     <ul>
       <li v-if="robot.tool.parts.length !== 0">
         <select v-model="selectedAction" data-cy="selectedToolPartDropDown">
@@ -15,7 +16,7 @@
                 @click="SET_COMMANDID(),
                         addGripperCommandToList(selectedAction, selectMove, commandId),
                         ADD_GRIPPER_COMMAND(selectedMovement)"
-								data-cy="selectGripperCommand">Add to the list</button>
+								data-cy="selectGripperCommand">Add to Commans to run</button>
       </li>
     </ul>
   </div>

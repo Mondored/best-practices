@@ -7,20 +7,26 @@
       <div class="panel-body" v-if="commands.joints.length !== 0 || 
                                     commands.move.length !== 0">
         <p v-for="(command, index) in commands"
-          :key="index">{{command}}</p>
+          :key="index"
+          data-cy="commandSteps">{{command}}</p>
       </div>
-      <button class="myButton">Run</button>
+      <button class="myButton"
+        @click="RUN_COMMANDS()"
+        data-cy="runCommandSteps">Run</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default Vue.extend({
   computed: {
     ...mapGetters(['joints','commands']),
+  },
+  methods: {
+    ...mapMutations(['RUN_COMMANDS']),
   }
 })
 </script>

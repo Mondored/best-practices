@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { Robot } from '@/data/robot';
-import { RobotHand, ToolMove, Parts } from '@/data/tool';
+import { RobotHand, ToolMove, Parts, Move } from '@/data/tool';
 import { Joints } from '@/data/joints';
 
 Vue.use(Vuex)
@@ -33,11 +33,11 @@ export default new Vuex.Store({
     } as Robot,
     tools: {
       parts: [{
-        gripper1: true,
-        gripper2: true,
-        gripper3: true,
-        gripper4: true,
-        gripper5: true,
+        gripper1: Move.OPEN,
+        gripper2: Move.OPEN,
+        gripper3: Move.OPEN,
+        gripper4: Move.OPEN,
+        gripper5: Move.OPEN,
       },] as Parts[]
     } as RobotHand,
     joints: [] as Joints[],
@@ -93,6 +93,55 @@ export default new Vuex.Store({
     SET_COMMANDID: state => {
       state.commandId++;
     },
+    RUN_COMMANDS: state => {
+      //todo make separate funtion for joints and tool
+      for (let i = 0; i < state.robot.joints.length; i++) {
+        state.commands.joints.forEach(element => {
+          if (element.id == state.robot.joints[i].id)
+          {
+            state.robot.joints[i].axisX = element.axisX;
+            state.robot.joints[i].axisY = element.axisY;
+            state.robot.joints[i].axisZ = element.axisZ;
+            setTimeout("delay",1000);
+          }
+        });
+      }
+      state.commands.joints.splice(0);
+      
+      state.commands.move.forEach(element => {
+        if (element.name === "gripper1")
+        {
+          state.robot.tool.parts[0].gripper1 = element.movement;
+          state.tools.parts[0].gripper1 = element.movement;
+          setTimeout("delay",1000);
+        }
+        if (element.name === "gripper2")
+        {
+          state.robot.tool.parts[0].gripper2 = element.movement;
+          state.tools.parts[0].gripper2 = element.movement;
+          setTimeout("delay",1000);
+        }
+        if (element.name === "gripper3")
+        {
+          state.robot.tool.parts[0].gripper3 = element.movement;
+          state.tools.parts[0].gripper3 = element.movement;
+          setTimeout("delay",1000);
+        }
+        if (element.name === "gripper4")
+        {
+          state.robot.tool.parts[0].gripper4 = element.movement;
+          state.tools.parts[0].gripper4 = element.movement;
+          setTimeout("delay",1000);
+        }
+        if (element.name === "gripper5")
+        {
+          state.robot.tool.parts[0].gripper5 = element.movement;
+          state.tools.parts[0].gripper5 = element.movement;
+          setTimeout("delay",1000);
+        }
+      });
+      state.commands.move.splice(0);
+    }
   },
   modules: {}
 })

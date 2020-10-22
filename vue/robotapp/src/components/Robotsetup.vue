@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="robotsetup">
     <h4>Current tool</h4>
     <Tools/>
     <Joints/>
