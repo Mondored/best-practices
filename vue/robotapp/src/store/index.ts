@@ -102,7 +102,6 @@ export default new Vuex.Store({
             state.robot.joints[i].axisX = element.axisX;
             state.robot.joints[i].axisY = element.axisY;
             state.robot.joints[i].axisZ = element.axisZ;
-            setTimeout("delay",1000);
           }
         });
       }
@@ -113,31 +112,26 @@ export default new Vuex.Store({
         {
           state.robot.tool.parts[0].gripper1 = element.movement;
           state.tools.parts[0].gripper1 = element.movement;
-          setTimeout("delay",1000);
         }
         if (element.name === "gripper2")
         {
           state.robot.tool.parts[0].gripper2 = element.movement;
           state.tools.parts[0].gripper2 = element.movement;
-          setTimeout("delay",1000);
         }
         if (element.name === "gripper3")
         {
           state.robot.tool.parts[0].gripper3 = element.movement;
           state.tools.parts[0].gripper3 = element.movement;
-          setTimeout("delay",1000);
         }
         if (element.name === "gripper4")
         {
           state.robot.tool.parts[0].gripper4 = element.movement;
           state.tools.parts[0].gripper4 = element.movement;
-          setTimeout("delay",1000);
         }
         if (element.name === "gripper5")
         {
           state.robot.tool.parts[0].gripper5 = element.movement;
           state.tools.parts[0].gripper5 = element.movement;
-          setTimeout("delay",1000);
         }
       });
       state.commands.move.splice(0);

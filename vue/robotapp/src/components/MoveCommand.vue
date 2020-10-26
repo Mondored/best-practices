@@ -46,7 +46,6 @@ export default Vue.extend({
         axisZ: 0,
         commandId: 0,
       } as Joints,
-      selectIsAvailable: true,
     };
   },
   computed: {
