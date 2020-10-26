@@ -1,6 +1,6 @@
-import { Parts } from '../../src/data/tool';
-
 describe('TestProject', () => {
+  const selectTool = "{ \"gripper1\": \"Open\", \"gripper2\": \"Open\", \"gripper3\": \"Open\", \"gripper4\": \"Open\", \"gripper5\": \"Open\" }";
+
   beforeEach(function() {
     cy.visit('http://localhost:8080');
   });
@@ -80,6 +80,4 @@ describe('TestProject', () => {
 
     cy.get('[data-cy=runCommandSteps]').click();
   });
-
-  const selectTool = "{ \"gripper1\": Open, \"gripper2\": Open, \"gripper3\": Open, \"gripper4\": Open, \"gripper5\": Open }";
 });
