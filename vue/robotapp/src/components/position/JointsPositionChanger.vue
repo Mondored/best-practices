@@ -19,7 +19,7 @@
       </li>
     </ul>
     <button class="myButton"
-      @click="SET_COMMANDID(),update(command),
+      @click="setCommandId(),update(command),
               addToCommandList(dislpayCommand)"
               data-cy="selectMoveCommand">Add to the list</button>
   </div>
@@ -27,7 +27,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters, mapMutations } from 'vuex';
+import { ACTIONS, GETTERS, MUTATIONS } from '@/store/store.const';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { Joints } from '@/data/joints';
 
 export default Vue.extend({
@@ -50,10 +51,20 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapGetters(['robot', 'commandId']),
+    ...mapGetters({
+      robot: GETTERS.GET_ROBOT,
+      commandId: GETTERS.GET_COMMANDID
+    }),
   },
   methods: {
-    ...mapMutations(['addToCommandList', 'SET_COMMANDID']),
+    ...mapMutations({
+      addToCommandList: MUTATIONS.ADD_TO_COMMAND_LIST,
+      setCommandId: MUTATIONS.SET_COMMANDID
+    }),
+    /* ...mapActions({
+      addToCommandList: ACTIONS.ADD_TO_COMMAND_LIST,
+      setCommandId: ACTIONS.SET_COMMANDID
+    }), */
     update(command: Joints) {
       this.command.commandId = this.commandId;
       this.command.id = this.command.id-1;

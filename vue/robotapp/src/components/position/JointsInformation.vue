@@ -23,17 +23,19 @@ import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default Vue.extend({
   name: 'JointsInformation',
   computed: {
-    ...mapGetters({ robot: GETTERS.GET_ROBOT }),
+    ...mapGetters({
+      robot: GETTERS.GET_ROBOT
+    }),
   },
   methods: {
     ...mapMutations({
       addNewJoint: MUTATIONS.ADD_NEW_JOINT,
       setJointIndex: MUTATIONS.SET_JOINTINDEX
     }),
-    ...mapActions({
+   /* ...mapActions({
       addNewJoint: ACTIONS.ADD_NEW_JOINT,
       setJointIndex: ACTIONS.SET_JOINTINDEX
-    })
+    }) */
   },
 });
 </script>

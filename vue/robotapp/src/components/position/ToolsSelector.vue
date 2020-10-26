@@ -5,9 +5,7 @@
       <select v-if="selectIsAvailable"
               v-model="selected"
               data-cy="selectToolDropDown">
-
         <option disabled value="default">Please select a tool</option>
-
         <option v-for="part in tools.parts"
               :key="part.gripper1">
               {{part}}
@@ -17,11 +15,11 @@
 
     <div v-if="selected !== 'default'">
       <button v-if="selectIsAvailable === true"
-        @click="updateUsedTool(selected),unSelect()" data-cy="selectToolButton">
+        @click="toolUpdate(selected)" data-cy="selectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
       </button>
       <button v-else
-        @click="unSelect(),removeUsedTool()" data-cy="unSelectToolButton">
+        @click="removeTool()" data-cy="unSelectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
       </button>
     </div>
@@ -30,7 +28,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters, mapMutations } from 'vuex';
+import { ACTIONS, GETTERS, MUTATIONS } from '@/store/store.const';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { Parts } from '@/data/tool';
 
 export default Vue.extend({
@@ -42,10 +41,27 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapGetters(['tools']),
+    ...mapGetters({
+      tools: GETTERS.GET_TOOLS
+    }),
   },
   methods:{
-    ...mapMutations(['updateUsedTool','removeUsedTool']),
+    ...mapMutations({
+      updateUsedTool: MUTATIONS.UPDATE_USED_TOOL,
+      removeUsedTool: MUTATIONS.REMOVE_USED_TOOL
+    }),
+    /* ...mapActions({
+      updateUsedTool: ACTIONS.UPDATE_USED_TOOL,
+      removeUsedTool: ACTIONS.REMOVE_USED_TOOL
+    }), */
+    toolUpdate(selectedTool: Parts){
+      this.updateUsedTool(selectedTool);
+      this.unSelect();
+    },
+    removeTool(){
+      this.unSelect();
+      this.removeUsedTool();
+    },
     unSelect(){
       this.selectIsAvailable = !this.selectIsAvailable;
     }

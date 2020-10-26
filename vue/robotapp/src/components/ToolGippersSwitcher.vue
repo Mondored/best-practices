@@ -1,6 +1,6 @@
 <template>
   <div>
-		<h4>Change robot fingers (open/close command)</h4>
+    <h4>Change robot fingers (open/close command)</h4>
     <ul>
       <li v-if="robot.tool.parts.length !== 0">
         <p>Selected tool: {{robot.tool.parts[0]}}</p>
@@ -14,10 +14,10 @@
           <option>Close</option>
         </select>
         <button class="myButton"
-                @click="SET_COMMANDID(),
+                @click="setCommandId(),
                         addGripperCommandToList(selectedAction, selectMove, commandId),
-                        ADD_GRIPPER_COMMAND(selectedMovement)"
-								data-cy="selectGripperCommand">Add to Commans to run</button>
+                        addGripperCommand(selectedMovement)"
+                data-cy="selectGripperCommand">Add to Commans to run</button>
       </li>
     </ul>
   </div>
@@ -26,33 +26,44 @@
 <script lang="ts">
 import Vue from 'vue';
 import { ToolMove, Move } from '../data/tool';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { ACTIONS, GETTERS, MUTATIONS } from '@/store/store.const';
 
 export default Vue.extend({
-	data() {
-		return {
-			selectedAction: '',
-			selectMove: Move.OPEN,
-			selectedMovement: {
+  data() {
+    return {
+      selectedAction: '',
+      selectMove: Move.OPEN,
+      selectedMovement: {
         name: '',
-				movement: Move.OPEN,
-				commandId: 0,
-			} as ToolMove,
-		};
-	},
-	computed: {
-    ...mapGetters(['robot', 'commandId']),
-	},
-	methods: {
-		...mapMutations(['ADD_GRIPPER_COMMAND','SET_COMMANDID']),
-		addGripperCommandToList(selectedAction: string, selectMove: Move, commandId: number) {
+        movement: Move.OPEN,
+        commandId: 0,
+      } as ToolMove,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      robot: GETTERS.GET_ROBOT,
+      commandId: GETTERS.GET_COMMANDID
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      addGripperCommand: MUTATIONS.ADD_GRIPPER_COMMAND,
+      setCommandId: MUTATIONS.SET_COMMANDID
+		}),
+    ...mapActions({
+      addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND,
+      setCommandId: ACTIONS.SET_COMMANDID
+    }),
+    addGripperCommandToList(selectedAction: string, selectMove: Move, commandId: number) {
       this.selectedMovement = {
-				name: selectedAction,
-				movement: selectMove,
-				commandId: commandId,
-			};
-		},
-	}
+        name: selectedAction,
+        movement: selectMove,
+        commandId: commandId,
+      };
+    },
+  }
 })
 </script>
 

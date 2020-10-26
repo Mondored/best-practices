@@ -4,14 +4,14 @@
       <div class="panel-heading">
         <h4>Commands to run:</h4>
       </div>
-      <div class="panel-body" v-if="commands.joints.length !== 0 || 
-                                    commands.move.length !== 0">
+      <div class="panel-body" v-if="commandToRun.joints.length !== 0 || 
+                                    commandToRun.move.length !== 0">
         <p v-for="(command, index) in commands"
           :key="index"
           data-cy="commandSteps">{{command}}</p>
       </div>
       <button class="myButton"
-        @click="RUN_COMMANDS()"
+        @click="runCommans()"
         data-cy="runCommandSteps">Run</button>
     </div>
   </div>
@@ -19,14 +19,23 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { GETTERS, MUTATIONS, ACTIONS } from '@/store/store.const';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default Vue.extend({
   computed: {
-    ...mapGetters(['joints','commands']),
+    ...mapGetters({
+      joints: GETTERS.GET_JOINTS,
+      commandToRun: GETTERS.GET_COMMAND_TO_RUN
+    }),
   },
   methods: {
-    ...mapMutations(['RUN_COMMANDS']),
+    ...mapMutations({
+      runCommans: MUTATIONS.RUN_COMMANDS
+    }),
+    /* ...mapActions({
+      runCommans: ACTIONS.RUN_COMMANDS
+    }), */
   }
 })
 </script>
