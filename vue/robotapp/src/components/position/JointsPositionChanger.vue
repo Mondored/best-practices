@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h4>Change the joints position</h4>
     <select class="option" v-model="command.id" data-cy="selectJointDropDown">
       <option v-for="item in robot.joints.length" :key="item">{{item}}</option>
     </select>

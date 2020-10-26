@@ -1,8 +1,9 @@
 <template>
   <div>
-		<p>Selected tool: {{robot.tool.parts[0]}}</p>
+		<h4>Change robot fingers (open/close command)</h4>
     <ul>
       <li v-if="robot.tool.parts.length !== 0">
+        <p>Selected tool: {{robot.tool.parts[0]}}</p>
         <select v-model="selectedAction" data-cy="selectedToolPartDropDown">
           <option v-for="(item, name) in robot.tool.parts[0]"
             :key="name">{{name}}

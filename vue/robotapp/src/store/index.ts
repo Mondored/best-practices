@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 import { Robot } from '@/data/robot';
 import { RobotHand, ToolMove, Parts, Move } from '@/data/tool';
 import { Joints } from '@/data/joints';
+import { GETTERS, ACTIONS, MUTATIONS } from './store.const';
+import { storeState } from './types';
 
 Vue.use(Vuex)
 
@@ -48,24 +50,24 @@ export default new Vuex.Store({
     commandId: 0,
   },
   getters: {
-    robot: state => {
+    [GETTERS.GET_ROBOT]: (state: storeState) => {
       return state.robot;
     },
-    tools: state => {
+    [GETTERS.GET_TOOLS]: (state: storeState) => {
       return state.tools;
     },
-    joints: state => {
+    [GETTERS.GET_JOINTS]: (state: storeState) => {
       return state.joints;
     },
-    commands: state => {
+    [GETTERS.GET_COMMAND_TO_RUN]: (state: storeState) => {
       return state.commands;
     },
-    commandId: state => {
+    [GETTERS.GET_COMMANDID]: (state: storeState) => {
       return state.commandId;
     },
   },
   mutations: {
-    addNewJoint: state => {
+    [MUTATIONS.ADD_NEW_JOINT]: (state: storeState) => {
       const newJoint = {
         id: state.robot.joints.length,
         axisX: 0,
@@ -74,26 +76,26 @@ export default new Vuex.Store({
       } as Joints;
       state.robot.joints.push(newJoint);
     },
-    addToCommandList: (state, payload: Joints) => {
+    [MUTATIONS.ADD_TO_COMMAND_LIST]: (state: storeState, payload: Joints) => {
       state.joints.push(payload);
       state.commands.joints.push(payload);
     },
-    ADD_GRIPPER_COMMAND: (state, payload: ToolMove ) => {
+    [MUTATIONS.ADD_GRIPPER_COMMAND]: (state: storeState, payload: ToolMove ) => {
       state.commands.move.push(payload);
     },
-    updateUsedTool: (state, payload) => {
+    [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload) => {
       state.robot.tool.parts.push(JSON.parse(payload));
     },
-    removeUsedTool: state => {
+    [MUTATIONS.REMOVE_USED_TOOL]: (state: storeState) => {
       state.robot.tool.parts.splice(0);
     },
-    SET_JOINTINDEX: (state, payload: number) => {
+    [MUTATIONS.SET_JOINTINDEX]: (state: storeState, payload: number) => {
       state.robot.joints.splice(payload, 1);
     },
-    SET_COMMANDID: state => {
+    [MUTATIONS.SET_COMMANDID]: (state: storeState) => {
       state.commandId++;
     },
-    RUN_COMMANDS: state => {
+    [MUTATIONS.RUN_COMMANDS]: (state: storeState) => {
       //todo make separate funtion for joints and tool
       for (let i = 0; i < state.robot.joints.length; i++) {
         state.commands.joints.forEach(element => {

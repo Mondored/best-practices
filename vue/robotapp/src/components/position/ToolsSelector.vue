@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+      <h4>Current tool</h4>
       <select v-if="selectIsAvailable"
               v-model="selected"
               data-cy="selectToolDropDown">
@@ -33,7 +34,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import { Parts } from '@/data/tool';
 
 export default Vue.extend({
-  name: 'Tools',
+  name: 'ToolsSelector',
   data() {
     return {
       selected: [] as Parts[],

@@ -1,22 +1,19 @@
 <template>
   <div class="robotsetup">
-    <h4>Current tool</h4>
-    <Tools/>
-    <Joints/>
-    <p>Move command</p>
-    <Move/>
-    <p>Robot finger open/close command</p>
-    <RobotTool/>
-    <CommandToRun/>
+    <tools-selector/>
+    <joints-information/>
+    <joints-position-changer/>
+    <tool-gippers-switcher/>
+    <command-to-run/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Joints from './position/Joints.vue';
-import Tools from './position/Tools.vue';
-import Move from './MoveCommand.vue';
-import RobotTool from './RobotToolCommand.vue';
+import JointsInformation from './position/JointsInformation.vue';
+import ToolsSelector from './position/ToolsSelector.vue';
+import JointsPositionChanger from './position/JointsPositionChanger.vue';
+import ToolGippersSwitcher from './ToolGippersSwitcher.vue';
 import CommandToRun from './CommandToRun.vue';
 
 export default Vue.extend({
@@ -25,10 +22,10 @@ export default Vue.extend({
     msg: String,
   },
   components: {
-    Joints,
-    Tools,
-    Move,
-    RobotTool,
+    JointsInformation,
+    ToolsSelector,
+    JointsPositionChanger,
+    ToolGippersSwitcher,
     CommandToRun,
   },
 });
