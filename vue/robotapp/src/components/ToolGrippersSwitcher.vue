@@ -3,18 +3,17 @@
     <h4>Change robot fingers (open/close command)</h4>
     <ul>
       <li v-if="robot.tool.parts.length !== 0">
-        <p>Selected tool: {{robot.tool.parts[0]}}</p>
         <select v-model="selectedAction" data-cy="selectedToolPartDropDown">
           <option v-for="(item, name) in robot.tool.parts[0]"
             :key="name">{{name}}
           </option>
         </select>
-        <select v-model="selectMove" data-cy="selectMoveDropDown">
+        <select v-model="selectGripperState" data-cy="selectMoveDropDown">
           <option>Open</option>
           <option>Close</option>
         </select>
         <button class="myButton"
-          @click="gripperCommandUpdate(selectedAction, selectMove, commandId, selectedMovement)"
+          @click="gripperCommandUpdate(selectedAction, selectGripperState, commandId, selectedMovement)"
           data-cy="selectGripperCommand">Add to Commans to run</button>
       </li>
     </ul>
@@ -25,16 +24,16 @@
 import Vue from 'vue';
 import { GETTERS, ACTIONS } from '@/store/store.const';
 import { mapGetters, mapActions } from 'vuex';
-import { ToolMove, Move } from '../data/tool';
+import { ToolMove, GripperState } from '../data/tool';
 
 export default Vue.extend({
   data() {
     return {
       selectedAction: '',
-      selectMove: Move.OPEN,
+      selectGripperState: GripperState.OPEN,
       selectedMovement: {
         name: '',
-        movement: Move.OPEN,
+        movement: GripperState.OPEN,
         commandId: 0,
       } as ToolMove,
     };
@@ -50,14 +49,14 @@ export default Vue.extend({
       addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND,
       setCommandId: ACTIONS.SET_COMMANDID
     }),
-    gripperCommandUpdate(selectedAction: string, selectMove: Move, commandId: number){//, selectedMovement: ToolMove){
+    gripperCommandUpdate(selectedAction: string, selectGripperState: GripperState, commandId: number){//, selectedMovement: ToolMove){
 			this.setCommandId();
-			this.addGripperCommandToList(selectedAction, selectMove, commandId);
+			this.addGripperCommandToList(selectedAction, selectGripperState, commandId);
     },
-    addGripperCommandToList(selectedAction: string, selectMove: Move, commandId: number) {
+    addGripperCommandToList(selectedAction: string, selectGripperState: GripperState, commandId: number) {
 			this.selectedMovement = {
 				name: selectedAction,
-        movement: selectMove,
+        movement: selectGripperState,
         commandId: commandId,
       };
       this.addGripperCommand(this.selectedMovement)

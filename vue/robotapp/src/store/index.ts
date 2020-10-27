@@ -5,14 +5,14 @@ import { GETTERS, ACTIONS, MUTATIONS } from './store.const';
 import { storeState } from './types';
 import { Robot } from '@/data/robot';
 import { Joints } from '@/data/joints';
-import { RobotHand, ToolMove, Parts, Move } from '@/data/tool';
+import { RobotHand, ToolMove, Parts, GripperState } from '@/data/tool';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     robot: {
-      joints:[
+      joints: [
         {
           id: 0,
           axisX: 10,
@@ -30,16 +30,18 @@ export default new Vuex.Store({
           axisZ: 0,
         }] as Joints[],
       tool: {
-        parts:[] as Parts[]
+        name: [] as string[],
+        parts: [] as Parts[]
       } as RobotHand,
     } as Robot,
     tools: {
+      name: ['Default_tool'],
       parts: [{
-        gripper1: Move.OPEN,
-        gripper2: Move.OPEN,
-        gripper3: Move.OPEN,
-        gripper4: Move.OPEN,
-        gripper5: Move.OPEN,
+        gripper1: GripperState.OPEN,
+        gripper2: GripperState.OPEN,
+        gripper3: GripperState.OPEN,
+        gripper4: GripperState.OPEN,
+        gripper5: GripperState.OPEN,
       },] as Parts[]
     } as RobotHand,
     joints: [] as Joints[],
@@ -47,6 +49,7 @@ export default new Vuex.Store({
       joints: [] as Joints[],
       toolMovement: [] as ToolMove[],
     },
+    genericCommand: [] as (Joints[] | ToolMove[]),
     commandId: 0,
   },
   getters: {
@@ -83,8 +86,9 @@ export default new Vuex.Store({
     [MUTATIONS.ADD_GRIPPER_COMMAND]: (state: storeState, payload: ToolMove ) => {
       state.commands.toolMovement.push(payload);
     },
-    [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload) => {
-      state.robot.tool.parts.push(payload);
+    [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload: number) => {
+      const value = state.tools.parts[payload];
+      state.robot.tool.parts.push(value);
     },
     [MUTATIONS.REMOVE_USED_TOOL]: (state: storeState) => {
       state.robot.tool.parts.splice(0);
@@ -156,8 +160,8 @@ export default new Vuex.Store({
       context.commit(MUTATIONS.SET_COMMANDID);
     },
     [ACTIONS.UPDATE_USED_TOOL]:
-     (context: ActionContext<storeState, storeState>, payload) => {
-      context.commit(MUTATIONS.UPDATE_USED_TOOL, JSON.parse(payload));
+     (context: ActionContext<storeState, storeState>, payload: number) => {
+      context.commit(MUTATIONS.UPDATE_USED_TOOL, payload);
     },
     [ACTIONS.REMOVE_USED_TOOL]:
     (context: ActionContext<storeState, storeState>) => {

@@ -1,14 +1,15 @@
+import Vuex from 'vuex';
 import { mount } from '@vue/test-utils';
 import { createLocalVue } from '@vue/test-utils';
-import MoveCommand from '@/components/MoveCommand.vue';
-import Vuex from 'vuex';
+import { ACTIONS, GETTERS } from '@/store/store.const';
+import JointsPositionChanger from '@/components/position/JointsPositionChanger.vue';
 
-describe('MoveCommand.vue component tests', () => {
+describe('JointsPositionChanger.vue component tests', () => {
   const localVue = createLocalVue();
   localVue.use(Vuex);
 
   const getters = {
-    robot: jest.fn(() => ({
+    [GETTERS.GET_ROBOT]: jest.fn(() => ({
       joints: [{
         id: 0,
         axisX: 10,
@@ -26,24 +27,25 @@ describe('MoveCommand.vue component tests', () => {
         axisZ: 0,
       }],
       tool: {
-        parts:[]
+        name: [],
+        parts: []
         }
       })
     ),
-    commandId: jest.fn()
+    [GETTERS.GET_COMMANDID]: jest.fn().mockReturnValue(0)
   }
-  
-  const mutations = {
-    addToCommandList: jest.fn(),
-    SET_COMMANDID: jest.fn(),
+
+  const actions = {
+    [ACTIONS.ADD_MOVEMENT_TO_COMMAND_LIST]: jest.fn(),
+    [ACTIONS.SET_COMMANDID]: jest.fn(),
   };
       
-  let store = new Vuex.Store({
-    getters, mutations
+  const store = new Vuex.Store({
+    getters, actions
   });
 
   it('component test', async () => {
-    const wrapper = mount(MoveCommand, {
+    const wrapper = mount(JointsPositionChanger, {
       store, localVue
      });
 
@@ -51,6 +53,6 @@ describe('MoveCommand.vue component tests', () => {
 
     await button.trigger('click');
 
-    expect(mutations.addToCommandList).toHaveBeenCalled();
+    expect(actions.addMovementToCommandList).toHaveBeenCalled();
   });
 });

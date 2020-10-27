@@ -1,4 +1,4 @@
-import { Tools, Parts } from "@/data/tool";
+import { Parts } from "@/data/tool";
 
 describe('tool.ts test', () =>{
   it('set data structure', () => {

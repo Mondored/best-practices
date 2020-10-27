@@ -80,5 +80,6 @@ ul {
 }
 li {
   display: inline-block;
+  padding: 5px;
 }
 </style>

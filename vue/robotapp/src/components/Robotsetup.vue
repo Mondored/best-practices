@@ -3,7 +3,7 @@
     <tools-selector/>
     <joints-information/>
     <joints-position-changer/>
-    <tool-gippers-switcher/>
+    <tool-grippers-switcher/>
     <command-to-run/>
   </div>
 </template>
@@ -13,7 +13,7 @@ import Vue from 'vue';
 import JointsInformation from './position/JointsInformation.vue';
 import ToolsSelector from './position/ToolsSelector.vue';
 import JointsPositionChanger from './position/JointsPositionChanger.vue';
-import ToolGippersSwitcher from './ToolGippersSwitcher.vue';
+import ToolGrippersSwitcher from './ToolGrippersSwitcher.vue';
 import CommandToRun from './CommandToRun.vue';
 
 export default Vue.extend({
@@ -25,7 +25,7 @@ export default Vue.extend({
     JointsInformation,
     ToolsSelector,
     JointsPositionChanger,
-    ToolGippersSwitcher,
+    ToolGrippersSwitcher,
     CommandToRun,
   },
 });

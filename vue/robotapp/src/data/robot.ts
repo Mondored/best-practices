@@ -1,5 +1,5 @@
 import { Joints } from './joints';
-import { Tools, RobotHand } from './tool';
+import { RobotHand } from './tool';
 
 export type Robot = {
   joints: Joints[];

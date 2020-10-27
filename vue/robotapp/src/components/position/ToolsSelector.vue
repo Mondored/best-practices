@@ -2,20 +2,24 @@
   <div>
     <div>
       <h4>Current tool</h4>
-      <select v-if="selectIsAvailable"
-              v-model="selected"
+      <select v-if="selectIsAvailable" v-model="selected"
               data-cy="selectToolDropDown">
         <option disabled value="default">Please select a tool</option>
-        <option v-for="part in tools.parts"
-              :key="part.gripper1">
-              {{part}}
-        </option>
+        <option v-for="(item, index) in tools.name"
+          :key="item.name" :selectedId="index">{{item}}</option>
       </select>
+      <ul v-if="selected !== ''">
+        <li> Grippers status:{{selected}}</li>
+        <ul>
+          <li v-for="items in tools.parts[selectedId]"
+            :key="items.name">{{items}}</li>
+        </ul>
+      </ul>
     </div>
 
     <div v-if="selected !== 'default'">
       <button v-if="selectIsAvailable === true"
-        @click="toolUpdate(selected)" data-cy="selectToolButton">
+        @click="toolUpdate(selectedId)" data-cy="selectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
       </button>
       <button v-else
@@ -30,14 +34,14 @@
 import Vue from 'vue';
 import { GETTERS, ACTIONS } from '@/store/store.const';
 import { mapGetters, mapActions } from 'vuex';
-import { Parts } from '@/data/tool';
 
 export default Vue.extend({
   name: 'ToolsSelector',
   data() {
     return {
-      selected: [] as Parts[],
+      selected: '',
       selectIsAvailable: true,
+      selectedId: 0,
     }
   },
   computed: {
@@ -50,8 +54,8 @@ export default Vue.extend({
       updateUsedTool: ACTIONS.UPDATE_USED_TOOL,
       removeUsedTool: ACTIONS.REMOVE_USED_TOOL
     }),
-    toolUpdate(selectedTool: Parts){
-      this.updateUsedTool(selectedTool);
+    toolUpdate(selectedId: number){
+      this.updateUsedTool(selectedId);
       this.unSelect();
     },
     removeTool(){
@@ -64,3 +68,16 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style lang="css" scoped>
+ul{
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  box-sizing: 0 2px 8px;
+  padding: 5px;
+  margin: 0 10px;
+}
+</style>

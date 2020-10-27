@@ -11,4 +11,5 @@ export type storeState = {
     toolMovement: ToolMove[];
   };
   commandId: number;
+  genericCommand: Array<Joints|ToolMove>;
 };
