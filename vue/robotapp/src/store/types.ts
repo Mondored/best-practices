@@ -8,7 +8,7 @@ export type storeState = {
   joints: Joints[];
   commands: {
     joints: Joints[];
-    move: ToolMove[];
+    toolMovement: ToolMove[];
   };
   commandId: number;
 };

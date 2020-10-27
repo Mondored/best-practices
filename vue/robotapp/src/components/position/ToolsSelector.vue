@@ -28,8 +28,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { ACTIONS, GETTERS, MUTATIONS } from '@/store/store.const';
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { GETTERS, MUTATIONS } from '@/store/store.const';
+import { mapGetters, mapMutations } from 'vuex';
 import { Parts } from '@/data/tool';
 
 export default Vue.extend({

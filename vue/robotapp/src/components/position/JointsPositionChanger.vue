@@ -19,9 +19,8 @@
       </li>
     </ul>
     <button class="myButton"
-      @click="setCommandId(),update(command),
-              addToCommandList(dislpayCommand)"
-              data-cy="selectMoveCommand">Add to the list</button>
+      @click="update(command)"
+      data-cy="selectMoveCommand">Add to the list</button>
   </div>
 </template>
 
@@ -61,14 +60,18 @@ export default Vue.extend({
       addToCommandList: MUTATIONS.ADD_TO_COMMAND_LIST,
       setCommandId: MUTATIONS.SET_COMMANDID
     }),
-    /* ...mapActions({
+     /* ...mapActions({
       addToCommandList: ACTIONS.ADD_TO_COMMAND_LIST,
       setCommandId: ACTIONS.SET_COMMANDID
     }), */
     update(command: Joints) {
+      this.setCommandId();
+
       this.command.commandId = this.commandId;
       this.command.id = this.command.id-1;
       this.dislpayCommand = {...command};
+
+      this.addToCommandList(this.dislpayCommand);
     }
   }
 })

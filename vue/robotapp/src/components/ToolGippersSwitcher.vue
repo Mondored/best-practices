@@ -14,10 +14,8 @@
           <option>Close</option>
         </select>
         <button class="myButton"
-                @click="setCommandId(),
-                        addGripperCommandToList(selectedAction, selectMove, commandId),
-                        addGripperCommand(selectedMovement)"
-                data-cy="selectGripperCommand">Add to Commans to run</button>
+          @click="gripperCommandUpdate(selectedAction, selectMove, commandId, selectedMovement)"
+          data-cy="selectGripperCommand">Add to Commans to run</button>
       </li>
     </ul>
   </div>
@@ -25,9 +23,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { ToolMove, Move } from '../data/tool';
-import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { ACTIONS, GETTERS, MUTATIONS } from '@/store/store.const';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { ToolMove, Move } from '../data/tool';
 
 export default Vue.extend({
   data() {
@@ -51,17 +49,22 @@ export default Vue.extend({
     ...mapMutations({
       addGripperCommand: MUTATIONS.ADD_GRIPPER_COMMAND,
       setCommandId: MUTATIONS.SET_COMMANDID
-		}),
-    ...mapActions({
+    }),
+    /* ...mapActions({
       addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND,
       setCommandId: ACTIONS.SET_COMMANDID
-    }),
+    }), */
+    gripperCommandUpdate(selectedAction: string, selectMove: Move, commandId: number){
+			this.setCommandId();
+			this.addGripperCommandToList(selectedAction, selectMove, commandId);
+    },
     addGripperCommandToList(selectedAction: string, selectMove: Move, commandId: number) {
-      this.selectedMovement = {
-        name: selectedAction,
+			this.selectedMovement = {
+				name: selectedAction,
         movement: selectMove,
         commandId: commandId,
       };
+      this.addGripperCommand(this.selectedMovement)
     },
   }
 })

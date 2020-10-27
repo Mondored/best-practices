@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { ActionContext } from 'vuex'
 
-import { Robot } from '@/data/robot';
-import { RobotHand, ToolMove, Parts, Move } from '@/data/tool';
-import { Joints } from '@/data/joints';
 import { GETTERS, ACTIONS, MUTATIONS } from './store.const';
 import { storeState } from './types';
+import { Robot } from '@/data/robot';
+import { Joints } from '@/data/joints';
+import { RobotHand, ToolMove, Parts, Move } from '@/data/tool';
 
 Vue.use(Vuex)
 
@@ -45,7 +45,7 @@ export default new Vuex.Store({
     joints: [] as Joints[],
     commands: {
       joints: [] as Joints[],
-      move: [] as ToolMove[],
+      toolMovement: [] as ToolMove[],
     },
     commandId: 0,
   },
@@ -81,7 +81,7 @@ export default new Vuex.Store({
       state.commands.joints.push(payload);
     },
     [MUTATIONS.ADD_GRIPPER_COMMAND]: (state: storeState, payload: ToolMove ) => {
-      state.commands.move.push(payload);
+      state.commands.toolMovement.push(payload);
     },
     [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload) => {
       state.robot.tool.parts.push(JSON.parse(payload));
@@ -89,7 +89,7 @@ export default new Vuex.Store({
     [MUTATIONS.REMOVE_USED_TOOL]: (state: storeState) => {
       state.robot.tool.parts.splice(0);
     },
-    [MUTATIONS.SET_JOINTINDEX]: (state: storeState, payload: number) => {
+    [MUTATIONS.REMOVE_JOINT]: (state: storeState, payload: number) => {
       state.robot.joints.splice(payload, 1);
     },
     [MUTATIONS.SET_COMMANDID]: (state: storeState) => {
@@ -109,7 +109,7 @@ export default new Vuex.Store({
       }
       state.commands.joints.splice(0);
       
-      state.commands.move.forEach(element => {
+      state.commands.toolMovement.forEach(element => {
         if (element.name === "gripper1")
         {
           state.robot.tool.parts[0].gripper1 = element.movement;
@@ -136,8 +136,16 @@ export default new Vuex.Store({
           state.tools.parts[0].gripper5 = element.movement;
         }
       });
-      state.commands.move.splice(0);
-    }
+      state.commands.toolMovement.splice(0);
+    },
+  },
+  actions: {
+    [ACTIONS.ADD_NEW_JOINT]: (context: ActionContext<storeState, storeState>) => {
+      context.commit(MUTATIONS.ADD_NEW_JOINT);
+    },
+    [ACTIONS.REMOVE_JOINT]: (context: ActionContext<storeState, storeState>, payload: number) => {
+      context.commit(MUTATIONS.REMOVE_JOINT, payload);
+    } 
   },
   modules: {}
 })
