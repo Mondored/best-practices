@@ -8,7 +8,7 @@ export enum GETTERS {
 
 export const MUTATIONS = {
   ADD_NEW_JOINT: 'addNewJoint',
-  ADD_TO_COMMAND_LIST: 'addToCommandList',
+  ADD_MOVEMENT_TO_COMMAND_LIST: 'addMovementToCommandList',
   ADD_GRIPPER_COMMAND: 'addGripperCommand',
   UPDATE_USED_TOOL: 'updateUsedTool',
   REMOVE_JOINT: 'removeJoint',
@@ -19,7 +19,7 @@ export const MUTATIONS = {
 
 export const ACTIONS = {
   ADD_NEW_JOINT: 'addNewJoint',
-  ADD_TO_COMMAND_LIST: 'addToCommandList',
+  ADD_MOVEMENT_TO_COMMAND_LIST: 'addMovementToCommandList',
   ADD_GRIPPER_COMMAND: 'addGripperCommand',
   UPDATE_USED_TOOL: 'updateUsedTool',
   REMOVE_JOINT: 'setJoint',

@@ -23,8 +23,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { ACTIONS, GETTERS, MUTATIONS } from '@/store/store.const';
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { GETTERS, ACTIONS } from '@/store/store.const';
+import { mapGetters, mapActions } from 'vuex';
 import { ToolMove, Move } from '../data/tool';
 
 export default Vue.extend({
@@ -46,15 +46,11 @@ export default Vue.extend({
     }),
   },
   methods: {
-    ...mapMutations({
-      addGripperCommand: MUTATIONS.ADD_GRIPPER_COMMAND,
-      setCommandId: MUTATIONS.SET_COMMANDID
-    }),
-    /* ...mapActions({
+    ...mapActions({
       addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND,
       setCommandId: ACTIONS.SET_COMMANDID
-    }), */
-    gripperCommandUpdate(selectedAction: string, selectMove: Move, commandId: number){
+    }),
+    gripperCommandUpdate(selectedAction: string, selectMove: Move, commandId: number){//, selectedMovement: ToolMove){
 			this.setCommandId();
 			this.addGripperCommandToList(selectedAction, selectMove, commandId);
     },

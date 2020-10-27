@@ -4,9 +4,9 @@
       <div class="panel-heading">
         <h4>Commands to run:</h4>
       </div>
-      <div class="panel-body" v-if="commandToRun.joints.length !== 0 || 
-                                    commandToRun.move.length !== 0">
-        <p v-for="(command, index) in commands"
+      <div class="panel-body" v-if="commandToRun.joints.length !== 0
+                           || commandToRun.toolMovement.length !== 0">
+        <p v-for="(command, index) in commandToRun"
           :key="index"
           data-cy="commandSteps">{{command}}</p>
       </div>
@@ -19,23 +19,19 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { GETTERS, MUTATIONS, ACTIONS } from '@/store/store.const';
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { GETTERS, ACTIONS } from '@/store/store.const';
+import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
   computed: {
     ...mapGetters({
-      joints: GETTERS.GET_JOINTS,
       commandToRun: GETTERS.GET_COMMAND_TO_RUN
     }),
   },
   methods: {
-    ...mapMutations({
-      runCommans: MUTATIONS.RUN_COMMANDS
-    }),
-    /* ...mapActions({
+    ...mapActions({
       runCommans: ACTIONS.RUN_COMMANDS
-    }), */
+    })
   }
 })
 </script>

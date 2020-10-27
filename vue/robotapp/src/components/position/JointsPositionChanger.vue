@@ -5,17 +5,17 @@
       <option v-for="item in robot.joints.length" :key="item">{{item}}</option>
     </select>
     <ul>
-      <li>x:
-        <input v-model="command.axisX" value="0" size="1px"
-               data-cy="selectXAxis"/>
+      <li>x: <input v-model="command.axisX"
+              value="0" size="1px"
+              data-cy="selectXAxis"/>
       </li>
-      <li>y:
-        <input v-model="command.axisY" value="0" size="1px"
-               data-cy="selectYAxis"/>
+      <li>y: <input v-model="command.axisY"
+              value="0" size="1px"
+              data-cy="selectYAxis"/>
       </li>
-      <li>z:
-        <input v-model="command.axisZ" value="0" size="1px"
-               data-cy="selectZAxis"/>
+      <li>z: <input v-model="command.axisZ"
+              value="0" size="1px"
+              data-cy="selectZAxis"/>
       </li>
     </ul>
     <button class="myButton"
@@ -26,8 +26,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { ACTIONS, GETTERS, MUTATIONS } from '@/store/store.const';
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { GETTERS, ACTIONS } from '@/store/store.const';
+import { mapGetters, mapActions } from 'vuex';
 import { Joints } from '@/data/joints';
 
 export default Vue.extend({
@@ -56,14 +56,10 @@ export default Vue.extend({
     }),
   },
   methods: {
-    ...mapMutations({
-      addToCommandList: MUTATIONS.ADD_TO_COMMAND_LIST,
-      setCommandId: MUTATIONS.SET_COMMANDID
-    }),
-     /* ...mapActions({
-      addToCommandList: ACTIONS.ADD_TO_COMMAND_LIST,
+    ...mapActions({
+      addMovementToCommandList: ACTIONS.ADD_MOVEMENT_TO_COMMAND_LIST,
       setCommandId: ACTIONS.SET_COMMANDID
-    }), */
+    }),
     update(command: Joints) {
       this.setCommandId();
 
@@ -71,7 +67,7 @@ export default Vue.extend({
       this.command.id = this.command.id-1;
       this.dislpayCommand = {...command};
 
-      this.addToCommandList(this.dislpayCommand);
+      this.addMovementToCommandList(this.dislpayCommand);
     }
   }
 })

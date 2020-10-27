@@ -76,7 +76,7 @@ export default new Vuex.Store({
       } as Joints;
       state.robot.joints.push(newJoint);
     },
-    [MUTATIONS.ADD_TO_COMMAND_LIST]: (state: storeState, payload: Joints) => {
+    [MUTATIONS.ADD_MOVEMENT_TO_COMMAND_LIST]: (state: storeState, payload: Joints) => {
       state.joints.push(payload);
       state.commands.joints.push(payload);
     },
@@ -84,7 +84,7 @@ export default new Vuex.Store({
       state.commands.toolMovement.push(payload);
     },
     [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload) => {
-      state.robot.tool.parts.push(JSON.parse(payload));
+      state.robot.tool.parts.push(payload);
     },
     [MUTATIONS.REMOVE_USED_TOOL]: (state: storeState) => {
       state.robot.tool.parts.splice(0);
@@ -96,17 +96,16 @@ export default new Vuex.Store({
       state.commandId++;
     },
     [MUTATIONS.RUN_COMMANDS]: (state: storeState) => {
-      //todo make separate funtion for joints and tool
-      for (let i = 0; i < state.robot.joints.length; i++) {
+      state.robot.joints.forEach(item => {
         state.commands.joints.forEach(element => {
-          if (element.id == state.robot.joints[i].id)
+          if (element.id == state.robot.joints[item.id].id)
           {
-            state.robot.joints[i].axisX = element.axisX;
-            state.robot.joints[i].axisY = element.axisY;
-            state.robot.joints[i].axisZ = element.axisZ;
+            state.robot.joints[item.id].axisX = element.axisX;
+            state.robot.joints[item.id].axisY = element.axisY;
+            state.robot.joints[item.id].axisZ = element.axisZ;
           }
         });
-      }
+      });
       state.commands.joints.splice(0);
       
       state.commands.toolMovement.forEach(element => {
@@ -140,12 +139,42 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    [ACTIONS.ADD_NEW_JOINT]: (context: ActionContext<storeState, storeState>) => {
+    [ACTIONS.ADD_NEW_JOINT]:
+     (context: ActionContext<storeState, storeState>) => {
       context.commit(MUTATIONS.ADD_NEW_JOINT);
     },
-    [ACTIONS.REMOVE_JOINT]: (context: ActionContext<storeState, storeState>, payload: number) => {
+    [ACTIONS.REMOVE_JOINT]:
+     (context: ActionContext<storeState, storeState>, payload: number) => {
       context.commit(MUTATIONS.REMOVE_JOINT, payload);
-    } 
+    },
+    [ACTIONS.ADD_MOVEMENT_TO_COMMAND_LIST]:
+     (context: ActionContext<storeState, storeState>, payload: Joints) => {
+      context.commit(MUTATIONS.ADD_MOVEMENT_TO_COMMAND_LIST, payload);
+    },
+    [ACTIONS.SET_COMMANDID]:
+     (context: ActionContext<storeState, storeState>) => {
+      context.commit(MUTATIONS.SET_COMMANDID);
+    },
+    [ACTIONS.UPDATE_USED_TOOL]:
+     (context: ActionContext<storeState, storeState>, payload) => {
+      context.commit(MUTATIONS.UPDATE_USED_TOOL, JSON.parse(payload));
+    },
+    [ACTIONS.REMOVE_USED_TOOL]:
+    (context: ActionContext<storeState, storeState>) => {
+      context.commit(MUTATIONS.REMOVE_USED_TOOL);
+    },
+    [ACTIONS.ADD_GRIPPER_COMMAND]:
+     (context: ActionContext<storeState, storeState>, payload: ToolMove) => {
+      context.commit(MUTATIONS.ADD_GRIPPER_COMMAND, payload);      
+    },
+    [ACTIONS.SET_COMMANDID]:
+     (context: ActionContext<storeState, storeState>) => {
+      context.commit(MUTATIONS.SET_COMMANDID);
+    },
+    [ACTIONS.RUN_COMMANDS]:
+     (context: ActionContext<storeState, storeState>) => {
+      context.commit(MUTATIONS.RUN_COMMANDS);
+    },
   },
   modules: {}
 })

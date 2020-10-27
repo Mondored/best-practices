@@ -28,8 +28,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { GETTERS, MUTATIONS } from '@/store/store.const';
-import { mapGetters, mapMutations } from 'vuex';
+import { GETTERS, ACTIONS } from '@/store/store.const';
+import { mapGetters, mapActions } from 'vuex';
 import { Parts } from '@/data/tool';
 
 export default Vue.extend({
@@ -46,14 +46,10 @@ export default Vue.extend({
     }),
   },
   methods:{
-    ...mapMutations({
-      updateUsedTool: MUTATIONS.UPDATE_USED_TOOL,
-      removeUsedTool: MUTATIONS.REMOVE_USED_TOOL
-    }),
-    /* ...mapActions({
+    ...mapActions({
       updateUsedTool: ACTIONS.UPDATE_USED_TOOL,
       removeUsedTool: ACTIONS.REMOVE_USED_TOOL
-    }), */
+    }),
     toolUpdate(selectedTool: Parts){
       this.updateUsedTool(selectedTool);
       this.unSelect();
