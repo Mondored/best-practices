@@ -2,26 +2,29 @@
   <div>
     <div>
       <h4>Current tool</h4>
-      <select v-if="selectIsAvailable" v-model="selected"
+      <select v-if="selectIsAvailable" v-model="selectedToolName"
+              @click="selectedToolId(selectedToolName)"
               data-cy="selectToolDropDown">
         <option disabled value="default">Please select a tool</option>
-        <option v-for="(item, index) in tools.name"
-          :key="item.name" :selectedId="index">{{item}}</option>
+        <option v-for="(item, index) in tools"
+          :key="index">{{item.name}}</option>
       </select>
-      <ul v-if="selected !== ''">
+
+      <ul v-if="selectedToolName !== ''">
         <div v-show="selectIsAvailable">
           <li class="selectedPartElement">
-            {{selected}} is includes: {{Object.keys(tools.parts[selectedId]).length}} gripper
+            {{selectedToolName}} is includes: {{tools[selectedId].parts.length}}
           </li>
           <ul>
-            <li class="selectedPartElement" v-for="(items, index) in tools.parts[selectedId]"
-              :key="items.name">{{index}}: {{items}}</li>
+            <li class="selectedPartElement" v-for="(items, index) in tools[selectedId].parts"
+              :key="items.name">Gipper{{index+1}}: {{items}}
+            </li>
           </ul>
         </div>
       </ul>
     </div>
 
-    <div v-if="selected !== 'default' && selected !== ''">
+    <div v-if="selectedToolName !== 'default' && selectedToolName !== ''">
       <button class="myButton" v-if="selectIsAvailable === true"
         @click="toolUpdate(selectedId)" data-cy="selectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
@@ -32,7 +35,7 @@
       </button>
       <div>
         <li v-show="!selectIsAvailable" class="selectedPartElement">
-            {{selected}} is selected
+            {{selectedToolName}} is selected
         </li>
       </div>
     </div>
@@ -48,7 +51,7 @@ export default Vue.extend({
   name: 'ToolsSelector',
   data() {
     return {
-      selected: '',
+      selectedToolName: '',
       selectIsAvailable: true,
       selectedId: 0,
     }
@@ -63,6 +66,11 @@ export default Vue.extend({
       updateUsedTool: ACTIONS.UPDATE_USED_TOOL,
       removeUsedTool: ACTIONS.REMOVE_USED_TOOL
     }),
+    selectedToolId(selected: string){
+      this.selectedId = this.tools.findIndex(function(e: { name: string }) {
+          return e.name===selected;
+        });
+    },
     toolUpdate(selectedId: number){
       this.updateUsedTool(selectedId);
       this.unSelect();

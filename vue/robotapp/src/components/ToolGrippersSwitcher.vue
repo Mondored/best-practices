@@ -2,10 +2,11 @@
   <div>
     <h4>Change robot fingers (open/close command)</h4>
     <ul>
-      <li v-if="robot.tool.parts.length !== 0">
-        <select v-model="selectedAction" data-cy="selectedToolPartDropDown">
-          <option v-for="(item, name) in robot.tool.parts[0]"
-            :key="name">{{name}}
+      <li v-if="robot.tool.length !== 0">
+        <select v-model="selectedAction"
+          data-cy="selectedToolPartDropDown">
+          <option v-for="(item, index) in robot.tool[0].parts"
+            :key="index">{{index+1}}
           </option>
         </select>
         <select v-model="selectGripperState" data-cy="selectMoveDropDown">
@@ -32,7 +33,7 @@ export default Vue.extend({
       selectedAction: '',
       selectGripperState: GripperState.OPEN,
       selectedMovement: {
-        name: '',
+        name: 0,
         movement: GripperState.OPEN,
         commandId: 0,
       } as ToolMove,
@@ -49,11 +50,11 @@ export default Vue.extend({
       addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND,
       setCommandId: ACTIONS.SET_COMMANDID
     }),
-    gripperCommandUpdate(selectedAction: string, selectGripperState: GripperState, commandId: number){//, selectedMovement: ToolMove){
-			this.setCommandId();
+    gripperCommandUpdate(selectedAction: number, selectGripperState: GripperState, commandId: number){
+      this.setCommandId();
 			this.addGripperCommandToList(selectedAction, selectGripperState, commandId);
     },
-    addGripperCommandToList(selectedAction: string, selectGripperState: GripperState, commandId: number) {
+    addGripperCommandToList(selectedAction: number, selectGripperState: GripperState, commandId: number) {
 			this.selectedMovement = {
 				name: selectedAction,
         movement: selectGripperState,
@@ -66,6 +67,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+ul{
+  list-style-type: none;
+  padding: 2px;
+}
 .myButton {
   box-shadow:inset 0px 1px 0px 0px #a4e271;
   background:linear-gradient(to bottom, #89c403 5%, #77a809 100%);

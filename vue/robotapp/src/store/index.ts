@@ -3,47 +3,16 @@ import Vuex, { ActionContext } from 'vuex'
 
 import { GETTERS, ACTIONS, MUTATIONS } from './store.const';
 import { storeState } from './types';
-import { Robot } from '@/data/robot';
 import { Joints } from '@/data/joints';
-import { RobotHand, ToolMove, Parts, GripperState } from '@/data/tool';
+import { initRobot, initTools } from '@/store/init-helper';
+import { ToolMove } from '@/data/tool';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    robot: {
-      joints: [
-        {
-          id: 0,
-          axisX: 10,
-          axisY: 10,
-          axisZ: 10,
-        },{
-          id: 1,
-          axisX: 30,
-          axisY: 30,
-          axisZ: 30,
-        },{
-          id: 2,
-          axisX: 0,
-          axisY: 0,
-          axisZ: 0,
-        }] as Joints[],
-      tool: {
-        name: [] as string[],
-        parts: [] as Parts[]
-      } as RobotHand,
-    } as Robot,
-    tools: {
-      name: ['Default_tool'],
-      parts: [{
-        gripper1: GripperState.OPEN,
-        gripper2: GripperState.OPEN,
-        gripper3: GripperState.OPEN,
-        gripper4: GripperState.OPEN,
-        gripper5: GripperState.OPEN,
-      },] as Parts[]
-    } as RobotHand,
+    robot: initRobot,
+    tools: initTools,
     joints: [] as Joints[],
     commands: {
       joints: [] as Joints[],
@@ -87,14 +56,18 @@ export default new Vuex.Store({
       state.commands.toolMovement.push(payload);
     },
     [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload: number) => {
-      const value = state.tools.parts[payload];
-      state.robot.tool.parts.push(value);
+      const value = state.tools[payload];
+      state.robot.tool.push(value);
     },
     [MUTATIONS.REMOVE_USED_TOOL]: (state: storeState) => {
-      state.robot.tool.parts.splice(0);
+      state.robot.tool.splice(0);
     },
     [MUTATIONS.REMOVE_JOINT]: (state: storeState, payload: number) => {
       state.robot.joints.splice(payload, 1);
+      let elementId = 0;
+      state.robot.joints.forEach(element => {
+        element.id = elementId++;
+      });
     },
     [MUTATIONS.SET_COMMANDID]: (state: storeState) => {
       state.commandId++;
