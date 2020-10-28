@@ -9,23 +9,32 @@
           :key="item.name" :selectedId="index">{{item}}</option>
       </select>
       <ul v-if="selected !== ''">
-        <li> Grippers status:{{selected}}</li>
-        <ul>
-          <li v-for="items in tools.parts[selectedId]"
-            :key="items.name">{{items}}</li>
-        </ul>
+        <div v-show="selectIsAvailable">
+          <li class="selectedPartElement">
+            {{selected}} is includes: {{Object.keys(tools.parts[selectedId]).length}} gripper
+          </li>
+          <ul>
+            <li class="selectedPartElement" v-for="(items, index) in tools.parts[selectedId]"
+              :key="items.name">{{index}}: {{items}}</li>
+          </ul>
+        </div>
       </ul>
     </div>
 
-    <div v-if="selected !== 'default'">
-      <button v-if="selectIsAvailable === true"
+    <div v-if="selected !== 'default' && selected !== ''">
+      <button class="myButton" v-if="selectIsAvailable === true"
         @click="toolUpdate(selectedId)" data-cy="selectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
       </button>
-      <button v-else
+      <button class="myButtonRev" v-else
         @click="removeTool()" data-cy="unSelectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
       </button>
+      <div>
+        <li v-show="!selectIsAvailable" class="selectedPartElement">
+            {{selected}} is selected
+        </li>
+      </div>
     </div>
   </div>
 </template>
@@ -72,12 +81,43 @@ export default Vue.extend({
 <style lang="css" scoped>
 ul{
   list-style-type: none;
-  padding: 0;
+  padding: 2px;
 }
 li {
   display: inline-block;
   box-sizing: 0 2px 8px;
+  padding: 2px;
+  margin: 8px 10px ;
+  border: medium none;
+}
+.selectedPartElement {
+  background-color: #f87910bb;
   padding: 5px;
-  margin: 0 10px;
+  padding-top: 2px;
+  box-shadow: 0 2px 5px black;
+}
+.myButtonRev {
+  box-shadow: inset 0px 1px 0px 0px #a4e271;
+  background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+  background-color: #d67404;
+  border-radius: 6px;
+  border: 1px solid #74b807;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #528009;
+}
+.myButtonRev:hover {
+  background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+  background-color: #77a809;
+}
+.myButtonRev:active {
+  position: relative;
+  top: 1px;
 }
 </style>

@@ -46,10 +46,14 @@ ul {
 }
 li {
   display: inline-block;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  margin: 0 10px;
+  box-sizing: 0 2px 8px;
+  padding: 2px;
+  margin: 2px 10px ;
+  border: medium none;
 }
 .axis {
-  background-color: #3ba809;
+  background-color: #f87910bb;
+  padding: 0;
+  box-shadow: 0 2px 5px black;
 }
 </style>
