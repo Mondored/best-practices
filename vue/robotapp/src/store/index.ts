@@ -14,12 +14,7 @@ export default new Vuex.Store({
     robot: initRobot,
     tools: initTools,
     joints: [] as Joints[],
-    commands: {
-      joints: [] as Joints[],
-      toolMovement: [] as ToolMove[],
-    },
-    genericCommand: [] as (Joints[] | ToolMove[]),
-    commandId: 0,
+    commands: [] as Array<Joints|ToolMove>,
   },
   getters: {
     [GETTERS.GET_ROBOT]: (state: storeState) => {
@@ -34,9 +29,6 @@ export default new Vuex.Store({
     [GETTERS.GET_COMMAND_TO_RUN]: (state: storeState) => {
       return state.commands;
     },
-    [GETTERS.GET_COMMANDID]: (state: storeState) => {
-      return state.commandId;
-    },
   },
   mutations: {
     [MUTATIONS.ADD_NEW_JOINT]: (state: storeState) => {
@@ -50,10 +42,10 @@ export default new Vuex.Store({
     },
     [MUTATIONS.ADD_MOVEMENT_TO_COMMAND_LIST]: (state: storeState, payload: Joints) => {
       state.joints.push(payload);
-      state.commands.joints.push(payload);
+      state.commands.push(payload);
     },
     [MUTATIONS.ADD_GRIPPER_COMMAND]: (state: storeState, payload: ToolMove ) => {
-      state.commands.toolMovement.push(payload);
+      state.commands.push(payload);
     },
     [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload: number) => {
       const value = state.tools[payload];
@@ -69,50 +61,22 @@ export default new Vuex.Store({
         element.id = elementId++;
       });
     },
-    [MUTATIONS.SET_COMMANDID]: (state: storeState) => {
-      state.commandId++;
-    },
     [MUTATIONS.RUN_COMMANDS]: (state: storeState) => {
-      state.robot.joints.forEach(item => {
-        state.commands.joints.forEach(element => {
-          if (element.id == state.robot.joints[item.id].id)
-          {
-            state.robot.joints[item.id].axisX = element.axisX;
-            state.robot.joints[item.id].axisY = element.axisY;
-            state.robot.joints[item.id].axisZ = element.axisZ;
+      state.robot.joints.forEach(jointItem => {
+        state.commands.forEach(element => {
+          if ('id' in element) {
+             if (state.robot.joints[jointItem.id].id === element.id){
+               state.robot.joints[jointItem.id].axisX = element.axisX;
+               state.robot.joints[jointItem.id].axisY = element.axisY;
+               state.robot.joints[jointItem.id].axisZ = element.axisZ;
+             }
           }
-        });
-      });
-      state.commands.joints.splice(0);
-      
-      state.commands.toolMovement.forEach(element => {
-        if (element.name === "gripper1")
-        {
-          state.robot.tool.parts[0].gripper1 = element.movement;
-          state.tools.parts[0].gripper1 = element.movement;
-        }
-        if (element.name === "gripper2")
-        {
-          state.robot.tool.parts[0].gripper2 = element.movement;
-          state.tools.parts[0].gripper2 = element.movement;
-        }
-        if (element.name === "gripper3")
-        {
-          state.robot.tool.parts[0].gripper3 = element.movement;
-          state.tools.parts[0].gripper3 = element.movement;
-        }
-        if (element.name === "gripper4")
-        {
-          state.robot.tool.parts[0].gripper4 = element.movement;
-          state.tools.parts[0].gripper4 = element.movement;
-        }
-        if (element.name === "gripper5")
-        {
-          state.robot.tool.parts[0].gripper5 = element.movement;
-          state.tools.parts[0].gripper5 = element.movement;
-        }
-      });
-      state.commands.toolMovement.splice(0);
+          if ('indexId' in element) {
+            state.robot.tool[0].parts[element.indexId-1] = element.movement;
+            state.tools[0].parts[element.indexId-1] = element.movement;
+          }
+        })});
+      state.commands.splice(0);
     },
   },
   actions: {
@@ -128,10 +92,6 @@ export default new Vuex.Store({
      (context: ActionContext<storeState, storeState>, payload: Joints) => {
       context.commit(MUTATIONS.ADD_MOVEMENT_TO_COMMAND_LIST, payload);
     },
-    [ACTIONS.SET_COMMANDID]:
-     (context: ActionContext<storeState, storeState>) => {
-      context.commit(MUTATIONS.SET_COMMANDID);
-    },
     [ACTIONS.UPDATE_USED_TOOL]:
      (context: ActionContext<storeState, storeState>, payload: number) => {
       context.commit(MUTATIONS.UPDATE_USED_TOOL, payload);
@@ -143,10 +103,6 @@ export default new Vuex.Store({
     [ACTIONS.ADD_GRIPPER_COMMAND]:
      (context: ActionContext<storeState, storeState>, payload: ToolMove) => {
       context.commit(MUTATIONS.ADD_GRIPPER_COMMAND, payload);      
-    },
-    [ACTIONS.SET_COMMANDID]:
-     (context: ActionContext<storeState, storeState>) => {
-      context.commit(MUTATIONS.SET_COMMANDID);
     },
     [ACTIONS.RUN_COMMANDS]:
      (context: ActionContext<storeState, storeState>) => {

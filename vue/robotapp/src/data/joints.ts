@@ -3,5 +3,4 @@ export type Joints = {
   axisX: number;
   axisY: number;
   axisZ: number;
-  commandId?: number;
 }

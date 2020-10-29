@@ -14,7 +14,7 @@
           <option>Close</option>
         </select>
         <button class="myButton"
-          @click="gripperCommandUpdate(selectedAction, selectGripperState, commandId, selectedMovement)"
+          @click="gripperCommandUpdate(selectedAction, selectGripperState)"
           data-cy="selectGripperCommand">Add to Commans to run</button>
       </li>
     </ul>
@@ -33,32 +33,23 @@ export default Vue.extend({
       selectedAction: '',
       selectGripperState: GripperState.OPEN,
       selectedMovement: {
-        name: 0,
+        indexId: 0,
         movement: GripperState.OPEN,
-        commandId: 0,
       } as ToolMove,
     };
   },
   computed: {
-    ...mapGetters({
-      robot: GETTERS.GET_ROBOT,
-      commandId: GETTERS.GET_COMMANDID
-    }),
+    ...mapGetters({ robot: GETTERS.GET_ROBOT }),
   },
   methods: {
-    ...mapActions({
-      addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND,
-      setCommandId: ACTIONS.SET_COMMANDID
-    }),
-    gripperCommandUpdate(selectedAction: number, selectGripperState: GripperState, commandId: number){
-      this.setCommandId();
-			this.addGripperCommandToList(selectedAction, selectGripperState, commandId);
+    ...mapActions({ addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND }),
+    gripperCommandUpdate(selectedAction: number, selectGripperState: GripperState) {
+			this.addGripperCommandToList(selectedAction, selectGripperState);
     },
-    addGripperCommandToList(selectedAction: number, selectGripperState: GripperState, commandId: number) {
+    addGripperCommandToList(selectedAction: number, selectGripperState: GripperState) {
 			this.selectedMovement = {
-				name: selectedAction,
+				indexId: selectedAction,
         movement: selectGripperState,
-        commandId: commandId,
       };
       this.addGripperCommand(this.selectedMovement)
     },

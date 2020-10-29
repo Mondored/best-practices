@@ -1,15 +1,10 @@
 import { Joints } from '@/data/joints';
 import { Robot } from '@/data/robot';
-import { RobotHand, ToolMove } from '@/data/tool';
+import { ToolMove, Tools } from '@/data/tool';
 
 export type storeState = {
   robot: Robot;
-  tools: RobotHand;
+  tools: Tools[];
   joints: Joints[];
-  commands: {
-    joints: Joints[];
-    toolMovement: ToolMove[];
-  };
-  commandId: number;
-  genericCommand: Array<Joints|ToolMove>;
+  commands: Array<Joints|ToolMove>;
 };

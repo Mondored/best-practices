@@ -38,32 +38,21 @@ export default Vue.extend({
         axisX: 0,
         axisY: 0,
         axisZ: 0,
-        commandId: 0,
       } as Joints,
       command: {
         id: 1,
         axisX: 0,
         axisY: 0,
         axisZ: 0,
-        commandId: 0,
       } as Joints,
     };
   },
   computed: {
-    ...mapGetters({
-      robot: GETTERS.GET_ROBOT,
-      commandId: GETTERS.GET_COMMANDID
-    }),
+    ...mapGetters({ robot: GETTERS.GET_ROBOT }),
   },
   methods: {
-    ...mapActions({
-      addMovementToCommandList: ACTIONS.ADD_MOVEMENT_TO_COMMAND_LIST,
-      setCommandId: ACTIONS.SET_COMMANDID
-    }),
+    ...mapActions({ addMovementToCommandList: ACTIONS.ADD_MOVEMENT_TO_COMMAND_LIST }),
     update(command: Joints) {
-      this.setCommandId();
-
-      this.command.commandId = this.commandId;
       this.command.id = this.command.id-1;
       this.dislpayCommand = {...command};
 

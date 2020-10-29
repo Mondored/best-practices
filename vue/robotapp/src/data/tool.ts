@@ -6,9 +6,8 @@ export type Tools = {
 export type RHand = Tools & {};
 
 export type ToolMove = {
-  name: number;
+  indexId: number;
   movement: GripperState;
-  commandId?: number;
 };
 
 export enum GripperState {

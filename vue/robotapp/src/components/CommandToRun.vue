@@ -4,10 +4,9 @@
       <div class="panel-heading">
         <h4>Commands to run:</h4>
       </div>
-      <div class="panel-body" v-if="commandToRun.joints.length !== 0
-                           || commandToRun.toolMovement.length !== 0">
-        <p v-for="(command, index) in commandToRun"
-          :key="index"
+      <div class="panel-body" v-if="commandToRun.length !== 0">
+        <!-- reasonable view -->
+        <p v-for="(command, index) in commandToRun" :key="index"
           data-cy="commandSteps">{{command}}</p>
       </div>
       <button class="myButton"
@@ -25,7 +24,7 @@ import { mapGetters, mapActions } from 'vuex';
 export default Vue.extend({
   computed: {
     ...mapGetters({
-      commandToRun: GETTERS.GET_COMMAND_TO_RUN
+      commandToRun: GETTERS.GET_COMMAND_TO_RUN,
     }),
   },
   methods: {
