@@ -5,9 +5,12 @@
         :key="joint.id"
         @click.right="removeJoint(index)">
       <li class="axis" data-cy="jointElements">Joint{{ joint.id + 1 }} (
-        x: <input readonly v-model="joint.axisX" value="joint.axisX" size="1px"/>,
-        y: <input readonly v-model="joint.axisY" value="joint.axisY" size="1px"/>,
-        z: <input readonly v-model="joint.axisZ" value="joint.axisZ" size="1px"/> )
+        x: <input readonly v-model="joint.axisX"
+         data-cy="jointAxisX" value="joint.axisX" size="1px"/>,
+        y: <input readonly v-model="joint.axisY"
+         data-cy="jointAxisY" value="joint.axisY" size="1px"/>,
+        z: <input readonly v-model="joint.axisZ"
+         data-cy="jointAxisZ" value="joint.axisZ" size="1px"/> )
       </li>
     </ul>
     <button @click="addNewJoint" class="myButton"

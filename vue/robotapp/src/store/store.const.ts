@@ -12,7 +12,9 @@ export const MUTATIONS = {
   UPDATE_USED_TOOL: 'updateUsedTool',
   REMOVE_JOINT: 'removeJoint',
   REMOVE_USED_TOOL: 'removeUsedTool',
-  RUN_COMMANDS: 'runCommands',
+  RUN_COMMANDS_TOOLMOVE: 'runCommansToolMove',
+  RUN_COMMANDS_JOINT: 'runCommansJoint',
+  EMPTY_COMMANDS: 'emptyCommansList',
 };
 
 export const ACTIONS = {

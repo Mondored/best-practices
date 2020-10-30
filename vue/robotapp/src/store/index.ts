@@ -61,21 +61,20 @@ export default new Vuex.Store({
         element.id = elementId++;
       });
     },
-    [MUTATIONS.RUN_COMMANDS]: (state: storeState) => {
+    [MUTATIONS.RUN_COMMANDS_JOINT]: async (state: storeState, payload: Joints) => {
       state.robot.joints.forEach(jointItem => {
-        state.commands.forEach(element => {
-          if ('id' in element) {
-             if (state.robot.joints[jointItem.id].id === element.id){
-               state.robot.joints[jointItem.id].axisX = element.axisX;
-               state.robot.joints[jointItem.id].axisY = element.axisY;
-               state.robot.joints[jointItem.id].axisZ = element.axisZ;
-             }
-          }
-          if ('indexId' in element) {
-            state.robot.tool[0].parts[element.indexId-1] = element.movement;
-            state.tools[0].parts[element.indexId-1] = element.movement;
-          }
-        })});
+        if (state.robot.joints[jointItem.id].id === payload.id) {
+          state.robot.joints[jointItem.id].axisX = payload.axisX;
+          state.robot.joints[jointItem.id].axisY = payload.axisY;
+          state.robot.joints[jointItem.id].axisZ = payload.axisZ;
+        }
+      });
+    },
+    [MUTATIONS.RUN_COMMANDS_TOOLMOVE]: async (state: storeState, payload: ToolMove) => {
+      state.robot.tool[0].parts[payload.indexId-1] = payload.movement;
+      state.tools[0].parts[payload.indexId-1] = payload.movement;
+    },
+    [MUTATIONS.EMPTY_COMMANDS]: (state: storeState) => {
       state.commands.splice(0);
     },
   },
@@ -104,9 +103,22 @@ export default new Vuex.Store({
      (context: ActionContext<storeState, storeState>, payload: ToolMove) => {
       context.commit(MUTATIONS.ADD_GRIPPER_COMMAND, payload);      
     },
-    [ACTIONS.RUN_COMMANDS]:
-     (context: ActionContext<storeState, storeState>) => {
-      context.commit(MUTATIONS.RUN_COMMANDS);
+    [ACTIONS.RUN_COMMANDS]
+    (context: ActionContext<storeState, storeState>) {
+      context.state.commands.forEach(element => {
+        if ('id' in element) {
+          setTimeout(async () => {
+            context.commit(MUTATIONS.RUN_COMMANDS_JOINT, element);
+          }, 5000);
+        }
+        if ('indexId' in element) {
+          setTimeout(async () => {
+            context.commit(MUTATIONS.RUN_COMMANDS_TOOLMOVE, element);
+          }, 5000);
+        }
+        setTimeout("", 2000);
+      });
+      context.commit(MUTATIONS.EMPTY_COMMANDS);
     },
   },
   modules: {}

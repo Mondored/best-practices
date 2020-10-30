@@ -32,12 +32,11 @@ describe('JointsPositionChanger.vue component tests', () => {
         }
       })
     ),
-    [GETTERS.GET_COMMANDID]: jest.fn().mockReturnValue(0)
+    //[GETTERS]: jest.fn().mockReturnValue(0)
   }
 
   const actions = {
     [ACTIONS.ADD_MOVEMENT_TO_COMMAND_LIST]: jest.fn(),
-    [ACTIONS.SET_COMMANDID]: jest.fn(),
   };
       
   const store = new Vuex.Store({

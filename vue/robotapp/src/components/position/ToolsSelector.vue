@@ -10,12 +10,12 @@
           :key="index">{{item.name}}</option>
       </select>
 
-      <ul v-if="selectedToolName !== ''" >
+      <ul v-if="selectedToolName !== ''">
         <li class="selectedPartElement">
           {{selectedToolName}} is includes: {{tools[selectedId].parts.length}}
         </li>
         <ul>
-          <li class="selectedPartElement" v-for="(items, index) in tools[selectedId].parts"
+          <li @change="tools[selectedId].parts" class="selectedPartElement" v-for="(items, index) in tools[selectedId].parts"
             :key="items.name">Gipper{{index+1}}: {{items}}
           </li>
         </ul>

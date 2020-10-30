@@ -53,9 +53,8 @@ export default Vue.extend({
   methods: {
     ...mapActions({ addMovementToCommandList: ACTIONS.ADD_MOVEMENT_TO_COMMAND_LIST }),
     update(command: Joints) {
-      this.command.id = this.command.id-1;
       this.dislpayCommand = {...command};
-
+      this.dislpayCommand.id = this.command.id-1;
       this.addMovementToCommandList(this.dislpayCommand);
     }
   }

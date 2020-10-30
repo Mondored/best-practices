@@ -4,10 +4,11 @@
       <div class="panel-heading">
         <h4>Commands to run:</h4>
       </div>
-      <div class="panel-body" v-if="commandToRun.length !== 0">
-        <!-- reasonable view -->
-        <p v-for="(command, index) in commandToRun" :key="index"
-          data-cy="commandSteps">{{command}}</p>
+      <div  v-if="commandToRun.length !== 0">
+        <ul>
+          <li class="listItems" v-for="(command, index) in commandToRun" :key="index"
+              data-cy="commandSteps">{{command}}</li>
+        </ul>
       </div>
       <button class="myButton"
         @click="runCommans()"
@@ -34,3 +35,23 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style scoped>
+ul{
+  list-style-type: none;
+  padding: 2px;
+}
+li {
+  display: table;
+  box-sizing: 0 2px 8px;
+  padding: 2px;
+  margin: 8px 10px ;
+  border: medium none;
+}
+.listItems {
+  background-color: #f87910bb;
+  padding: 5px;
+  padding-top: 2px;
+  box-shadow: 0 2px 5px black;
+}
+</style>
