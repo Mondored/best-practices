@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import { createLocalVue } from '@vue/test-utils';
 import Vuex, { Store, StoreOptions } from 'vuex';
 import { ACTIONS, GETTERS } from '@/store/store.const';
@@ -38,15 +38,16 @@ describe('ToolsSelector.vue component tests', () => {
   })
 
   it('component test', async () => {
-    const wrapper = mount(ToolsSelector, {
+    const wrapper = shallowMount(ToolsSelector, {
       store, localVue
-     });
+    });
+    wrapper.setData({ selectedId: 0});
 
-    /* const button = wrapper.find('.myButton');
-
-    await button.trigger('click');
-
-    expect(actions.addMovementToCommandList).toHaveBeenCalled();
-    expect(actions.addMovementToCommandList).toHaveBeenCalledTimes(1); */
+    const selector = wrapper.find('select').findAll('option');
+    selector.at(1).setSelected(); // .vm.$emit('selectedToolId', 'test');
+    
+    expect(wrapper.vm.$data.selectedToolName).toBe('');
+    //await selector.trigger('click');
+    
   });
 });
