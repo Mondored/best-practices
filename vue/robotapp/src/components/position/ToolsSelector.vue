@@ -5,8 +5,8 @@
       <select v-if="selectIsAvailable" v-model="selectedToolName"
               @click="selectedToolId(selectedToolName)"
               data-cy="selectToolDropDown">
-        <option disabled value="default">Please select a tool</option>
-        <option v-for="(item, index) in tools"
+        <option type="string" disabled value="default">Please select a tool</option>
+        <option type="string" v-for="(item, index) in tools"
           :key="index">{{item.name}}</option>
       </select>
 
@@ -15,7 +15,8 @@
           {{selectedToolName}} is includes: {{tools[selectedId].parts.length}}
         </li>
         <ul>
-          <li @change="tools[selectedId].parts" class="selectedPartElement" v-for="(items, index) in tools[selectedId].parts"
+          <li class="selectedPartElement"
+            v-for="(items, index) in parts"
             :key="items.name">Gipper{{index+1}}: {{items}}
           </li>
         </ul>
@@ -39,6 +40,7 @@
 import Vue from 'vue';
 import { GETTERS, ACTIONS } from '@/store/store.const';
 import { mapGetters, mapActions } from 'vuex';
+import { GripperState } from '@/data/tool';
 
 export default Vue.extend({
   name: 'ToolsSelector',
@@ -53,6 +55,9 @@ export default Vue.extend({
     ...mapGetters({
       tools: GETTERS.GET_TOOLS
     }),
+    parts(): GripperState[] {
+      return this.$store.state.tools[this.selectedId].parts;
+    },
   },
   methods:{
     ...mapActions({
@@ -74,7 +79,7 @@ export default Vue.extend({
     },
     unSelect(){
       this.selectIsAvailable = !this.selectIsAvailable;
-    }
+    },
   }
 });
 </script>

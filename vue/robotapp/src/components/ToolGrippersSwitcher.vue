@@ -2,10 +2,10 @@
   <div>
     <h4>Change robot fingers (open/close command)</h4>
     <ul>
-      <li v-if="robot.tool.length !== 0">
+      <li v-if="tools[robot.tool].length !== 0">
         <select v-model="selectedAction"
           data-cy="selectedToolPartDropDown">
-          <option v-for="(item, index) in robot.tool[0].parts"
+          <option v-for="(item, index) in tools[robot.tool].parts"
             :key="index">{{index+1}}
           </option>
         </select>
@@ -26,6 +26,7 @@ import Vue from 'vue';
 import { GETTERS, ACTIONS } from '@/store/store.const';
 import { mapGetters, mapActions } from 'vuex';
 import { ToolMove, GripperState } from '../data/tool';
+import { CommandType } from '@/store/types';
 
 export default Vue.extend({
   data() {
@@ -33,13 +34,17 @@ export default Vue.extend({
       selectedAction: '',
       selectGripperState: GripperState.OPEN,
       selectedMovement: {
+        type: CommandType.ToolMove,
         indexId: 0,
         movement: GripperState.OPEN,
       } as ToolMove,
     };
   },
   computed: {
-    ...mapGetters({ robot: GETTERS.GET_ROBOT }),
+    ...mapGetters({
+      robot: GETTERS.GET_ROBOT,
+      tools: GETTERS.GET_TOOLS
+    }),
   },
   methods: {
     ...mapActions({ addGripperCommand: ACTIONS.ADD_GRIPPER_COMMAND }),
@@ -47,8 +52,9 @@ export default Vue.extend({
 			this.addGripperCommandToList(selectedAction, selectGripperState);
     },
     addGripperCommandToList(selectedAction: number, selectGripperState: GripperState) {
-			this.selectedMovement = {
-				indexId: selectedAction,
+      this.selectedMovement = {
+        type: CommandType.ToolMove,
+        indexId: selectedAction,
         movement: selectGripperState,
       };
       this.addGripperCommand(this.selectedMovement)

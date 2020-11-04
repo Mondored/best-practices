@@ -6,5 +6,12 @@ export type storeState = {
   robot: Robot;
   tools: Tools[];
   joints: Joints[];
-  commands: Array<Joints|ToolMove>;
+  commands: Array<CommandRun>;
 };
+
+export enum CommandType {
+  Joints = 'Joints',
+  ToolMove = 'ToolMove',
+}
+
+export type CommandRun = Joints | ToolMove;

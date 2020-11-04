@@ -2,7 +2,7 @@
   <div>
     <h4>Change the joints position</h4>
     <select class="option" v-model="command.id" data-cy="selectJointDropDown">
-      <option v-for="item in robot.joints.length" :key="item">{{item}}</option>
+      <option type="number" v-for="item in robot.joints.length" :key="item">{{item}}</option>
     </select>
     <ul>
       <li>x: <input v-model="command.axisX"
@@ -29,17 +29,20 @@ import Vue from 'vue';
 import { GETTERS, ACTIONS } from '@/store/store.const';
 import { mapGetters, mapActions } from 'vuex';
 import { Joints } from '@/data/joints';
+import { CommandType } from '@/store/types';
 
 export default Vue.extend({
   data() {
     return {
       dislpayCommand: {
+        type: CommandType.Joints,
         id: 1,
         axisX: 0,
         axisY: 0,
         axisZ: 0,
       } as Joints,
       command: {
+        type: CommandType.Joints,
         id: 1,
         axisX: 0,
         axisY: 0,

@@ -6,6 +6,7 @@ export type Tools = {
 export type RHand = Tools & {};
 
 export type ToolMove = {
+  type: string;
   indexId: number;
   movement: GripperState;
 };

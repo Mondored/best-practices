@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex, { ActionContext } from 'vuex'
 
 import { GETTERS, ACTIONS, MUTATIONS } from './store.const';
-import { storeState } from './types';
+import { CommandType, CommandRun, storeState } from './types';
 import { Joints } from '@/data/joints';
 import { initRobot, initTools } from '@/store/init-helper';
 import { ToolMove } from '@/data/tool';
@@ -14,7 +14,7 @@ export default new Vuex.Store({
     robot: initRobot,
     tools: initTools,
     joints: [] as Joints[],
-    commands: [] as Array<Joints|ToolMove>,
+    commands: [] as Array<CommandRun>,
   },
   getters: {
     [GETTERS.GET_ROBOT]: (state: storeState) => {
@@ -33,6 +33,7 @@ export default new Vuex.Store({
   mutations: {
     [MUTATIONS.ADD_NEW_JOINT]: (state: storeState) => {
       const newJoint = {
+        type: CommandType.Joints,
         id: state.robot.joints.length,
         axisX: 0,
         axisY: 0,
@@ -48,11 +49,10 @@ export default new Vuex.Store({
       state.commands.push(payload);
     },
     [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload: number) => {
-      const value = state.tools[payload];
-      state.robot.tool.push(value);
+      state.robot.tool = payload;
     },
     [MUTATIONS.REMOVE_USED_TOOL]: (state: storeState) => {
-      state.robot.tool.splice(0);
+      state.robot.tool = 0;
     },
     [MUTATIONS.REMOVE_JOINT]: (state: storeState, payload: number) => {
       state.robot.joints.splice(payload, 1);
@@ -71,11 +71,7 @@ export default new Vuex.Store({
       });
     },
     [MUTATIONS.RUN_COMMANDS_TOOLMOVE]: async (state: storeState, payload: ToolMove) => {
-      state.robot.tool[0].parts[payload.indexId-1] = payload.movement;
-      state.tools[0].parts[payload.indexId-1] = payload.movement;
-    },
-    [MUTATIONS.EMPTY_COMMANDS]: (state: storeState) => {
-      state.commands.splice(0);
+      Vue.set(state.tools[state.robot.tool].parts, payload.indexId-1, payload.movement);
     },
   },
   actions: {
@@ -105,20 +101,19 @@ export default new Vuex.Store({
     },
     [ACTIONS.RUN_COMMANDS]
     (context: ActionContext<storeState, storeState>) {
-      context.state.commands.forEach(element => {
-        if ('id' in element) {
-          setTimeout(async () => {
+      while(context.state.commands.length > 0) {
+        let element = context.state.commands.shift();
+        if (element !== undefined && element.type === CommandType.Joints) {
+          new Promise(r => setTimeout(r, 2000)).then(() => {
             context.commit(MUTATIONS.RUN_COMMANDS_JOINT, element);
-          }, 5000);
+          });   
         }
-        if ('indexId' in element) {
-          setTimeout(async () => {
+        if (element !== undefined && element.type === CommandType.ToolMove) {
+          new Promise(r => setTimeout(r, 2000)).then(() => {
             context.commit(MUTATIONS.RUN_COMMANDS_TOOLMOVE, element);
-          }, 5000);
+          }); 
         }
-        setTimeout("", 2000);
-      });
-      context.commit(MUTATIONS.EMPTY_COMMANDS);
+      };
     },
   },
   modules: {}

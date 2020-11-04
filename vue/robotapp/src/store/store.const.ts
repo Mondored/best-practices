@@ -14,7 +14,6 @@ export const MUTATIONS = {
   REMOVE_USED_TOOL: 'removeUsedTool',
   RUN_COMMANDS_TOOLMOVE: 'runCommansToolMove',
   RUN_COMMANDS_JOINT: 'runCommansJoint',
-  EMPTY_COMMANDS: 'emptyCommansList',
 };
 
 export const ACTIONS = {
