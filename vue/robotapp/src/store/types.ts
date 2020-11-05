@@ -7,6 +7,7 @@ export type storeState = {
   tools: Tools[];
   joints: Joints[];
   commands: Array<CommandRun>;
+  selectedTool: string;
 };
 
 export enum CommandType {

@@ -41,7 +41,7 @@ describe('ToolsSelector.vue component tests', () => {
     const wrapper = shallowMount(ToolsSelector, {
       store, localVue
     });
-    wrapper.setData({ selectedId: 0});
+    wrapper.setData({ selectedId: 0 });
 
     const selector = wrapper.find('select').findAll('option');
     selector.at(1).setSelected();

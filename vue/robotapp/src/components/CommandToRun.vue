@@ -10,9 +10,7 @@
               data-cy="commandSteps">{{command}}</li>
         </ul>
       </div>
-      <button class="myButton"
-        @click="runCommans()"
-        data-cy="runCommandSteps">Run</button>
+      <button class="myButton" @click="runCmds()" data-cy="runCommandSteps">Run</button>
     </div>
   </div>
 </template>
@@ -26,12 +24,18 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       commandToRun: GETTERS.GET_COMMAND_TO_RUN,
+      selectedTool: GETTERS.GET_SELECTED_TOOL,
     }),
   },
   methods: {
     ...mapActions({
-      runCommans: ACTIONS.RUN_COMMANDS
-    })
+      runCommands: ACTIONS.RUN_COMMANDS
+    }),
+    runCmds() {
+      if (this.selectedTool !== ''){
+        this.runCommands();
+      }
+    }
   }
 })
 </script>

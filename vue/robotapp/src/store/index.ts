@@ -15,6 +15,7 @@ export default new Vuex.Store({
     tools: initTools,
     joints: [] as Joints[],
     commands: [] as Array<CommandRun>,
+    selectedTool: '',
   },
   getters: {
     [GETTERS.GET_ROBOT]: (state: storeState) => {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     [GETTERS.GET_COMMAND_TO_RUN]: (state: storeState) => {
       return state.commands;
+    },
+    [GETTERS.GET_SELECTED_TOOL]: (state: storeState) => {
+      return state.selectedTool;
     },
   },
   mutations: {
@@ -51,8 +55,12 @@ export default new Vuex.Store({
     [MUTATIONS.UPDATE_USED_TOOL]: (state: storeState, payload: number) => {
       state.robot.tool = payload;
     },
+    [MUTATIONS.SET_SELECTED_TOOL]: (state: storeState, payload: string) => {
+      state.selectedTool = payload;
+    },
     [MUTATIONS.REMOVE_USED_TOOL]: (state: storeState) => {
       state.robot.tool = 0;
+      state.selectedTool = '';
     },
     [MUTATIONS.REMOVE_JOINT]: (state: storeState, payload: number) => {
       state.robot.joints.splice(payload, 1);
@@ -90,6 +98,10 @@ export default new Vuex.Store({
     [ACTIONS.UPDATE_USED_TOOL]:
      (context: ActionContext<storeState, storeState>, payload: number) => {
       context.commit(MUTATIONS.UPDATE_USED_TOOL, payload);
+    },
+    [ACTIONS.SET_SELECTED_TOOL]:
+     (context: ActionContext<storeState, storeState>, payload: string) => {
+      context.commit(MUTATIONS.SET_SELECTED_TOOL, payload);
     },
     [ACTIONS.REMOVE_USED_TOOL]:
     (context: ActionContext<storeState, storeState>) => {

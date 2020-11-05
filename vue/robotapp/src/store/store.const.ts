@@ -3,6 +3,7 @@ export enum GETTERS {
   GET_TOOLS = 'getTools',
   GET_JOINTS = 'getJoints',
   GET_COMMAND_TO_RUN = 'getCommandToRun',
+  GET_SELECTED_TOOL = 'getSelectedTool',
 }
 
 export const MUTATIONS = {
@@ -10,6 +11,7 @@ export const MUTATIONS = {
   ADD_MOVEMENT_TO_COMMAND_LIST: 'addMovementToCommandList',
   ADD_GRIPPER_COMMAND: 'addGripperCommand',
   UPDATE_USED_TOOL: 'updateUsedTool',
+  SET_SELECTED_TOOL: 'setSelectedTool',
   REMOVE_JOINT: 'removeJoint',
   REMOVE_USED_TOOL: 'removeUsedTool',
   RUN_COMMANDS_TOOLMOVE: 'runCommansToolMove',
@@ -21,6 +23,7 @@ export const ACTIONS = {
   ADD_MOVEMENT_TO_COMMAND_LIST: 'addMovementToCommandList',
   ADD_GRIPPER_COMMAND: 'addGripperCommand',
   UPDATE_USED_TOOL: 'updateUsedTool',
+  SET_SELECTED_TOOL: 'setSelectedTool',
   REMOVE_JOINT: 'setJoint',
   REMOVE_USED_TOOL: 'removeUsedTool',
   RUN_COMMANDS: 'runCommands',

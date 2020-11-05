@@ -25,11 +25,11 @@
 
     <div v-if="selectedToolName !== 'default' && selectedToolName !== ''">
       <button class="myButton" v-if="selectIsAvailable === true"
-        @click="toolUpdate(selectedId)" data-cy="selectToolButton">
+        @click="toolUpdate(selectedId, selectedToolName)" data-cy="selectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
       </button>
       <button class="myButtonRev" v-else
-        @click="removeTool()" data-cy="unSelectToolButton">
+        @click="removeTool(selectedToolName)" data-cy="unSelectToolButton">
           {{selectIsAvailable ? 'Select' : 'Unselect'}} tool
       </button>
     </div>
@@ -53,31 +53,33 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters({
-      tools: GETTERS.GET_TOOLS
+      tools: GETTERS.GET_TOOLS,
     }),
     parts(): GripperState[] {
       return this.$store.state.tools[this.selectedId].parts;
     },
   },
-  methods:{
+  methods: {
     ...mapActions({
       updateUsedTool: ACTIONS.UPDATE_USED_TOOL,
-      removeUsedTool: ACTIONS.REMOVE_USED_TOOL
+      setSelectedTool: ACTIONS.SET_SELECTED_TOOL,
+      removeUsedTool: ACTIONS.REMOVE_USED_TOOL,
     }),
-    selectedToolId(selected: string){
+    selectedToolId(selected: string) {
       this.selectedId = this.tools.findIndex(function(e: { name: string }) {
-          return e.name===selected;
-        });
+        return e.name===selected;
+      });
     },
-    toolUpdate(selectedId: number){
+    toolUpdate(selectedId: number, selectedToolName: string) {
       this.updateUsedTool(selectedId);
+      this.setSelectedTool(selectedToolName);
       this.unSelect();
     },
-    removeTool(){
+    removeTool(selectedToolName: string) {
       this.unSelect();
-      this.removeUsedTool();
+      this.removeUsedTool(selectedToolName);
     },
-    unSelect(){
+    unSelect() {
       this.selectIsAvailable = !this.selectIsAvailable;
     },
   }

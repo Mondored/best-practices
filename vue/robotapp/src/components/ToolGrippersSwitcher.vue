@@ -2,10 +2,9 @@
   <div>
     <h4>Change robot fingers (open/close command)</h4>
     <ul>
-      <li v-if="tools[robot.tool].length !== 0">
-        <select v-model="selectedAction"
-          data-cy="selectedToolPartDropDown">
-          <option v-for="(item, index) in tools[robot.tool].parts"
+      <li v-if="selectedTool !== ''">
+        <select v-model="selectedAction" data-cy="selectedToolPartDropDown">
+          <option :value="index+1" v-for="(item, index) in tools[robot.tool].parts"
             :key="index">{{index+1}}
           </option>
         </select>
@@ -43,7 +42,8 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       robot: GETTERS.GET_ROBOT,
-      tools: GETTERS.GET_TOOLS
+      tools: GETTERS.GET_TOOLS,
+      selectedTool: GETTERS.GET_SELECTED_TOOL,
     }),
   },
   methods: {
