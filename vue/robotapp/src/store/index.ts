@@ -99,21 +99,19 @@ export default new Vuex.Store({
      (context: ActionContext<storeState, storeState>, payload: ToolMove) => {
       context.commit(MUTATIONS.ADD_GRIPPER_COMMAND, payload);      
     },
-    [ACTIONS.RUN_COMMANDS]
+    async [ACTIONS.RUN_COMMANDS]
     (context: ActionContext<storeState, storeState>) {
       while(context.state.commands.length > 0) {
-        let element = context.state.commands.shift();
-        if (element !== undefined && element.type === CommandType.Joints) {
-          new Promise(r => setTimeout(r, 2000)).then(() => {
-            context.commit(MUTATIONS.RUN_COMMANDS_JOINT, element);
-          });   
-        }
-        if (element !== undefined && element.type === CommandType.ToolMove) {
-          new Promise(r => setTimeout(r, 2000)).then(() => {
+        await new Promise(r => setTimeout(r, 2000)).then(() => {
+          const element = context.state.commands.shift();
+          if (element !== undefined && element.type === CommandType.Joints) {
+            context.commit(MUTATIONS.RUN_COMMANDS_JOINT, element);   
+          }
+          if (element !== undefined && element.type === CommandType.ToolMove) {
             context.commit(MUTATIONS.RUN_COMMANDS_TOOLMOVE, element);
-          }); 
-        }
-      };
+          }
+        });
+      }
     },
   },
   modules: {}

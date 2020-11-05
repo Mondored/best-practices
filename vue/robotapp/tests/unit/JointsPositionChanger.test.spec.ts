@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils';
 import { createLocalVue } from '@vue/test-utils';
 import { ACTIONS, GETTERS } from '@/store/store.const';
 import JointsPositionChanger from '@/components/position/JointsPositionChanger.vue';
+import { CommandType } from '@/store/types';
 
 describe('JointsPositionChanger.vue component tests', () => {
   let store: Store<StoreOptions<any>>;
@@ -16,16 +17,19 @@ describe('JointsPositionChanger.vue component tests', () => {
     getters = {
       [GETTERS.GET_ROBOT]: jest.fn(() => ({
         joints: [{
+          type: CommandType.Joints,
           id: 0,
           axisX: 10,
           axisY: 10,
           axisZ: 10,
         },{
+          type: CommandType.Joints,
           id: 1,
           axisX: 30,
           axisY: 30,
           axisZ: 30,
         },{
+          type: CommandType.Joints,
           id: 2,
           axisX: 0,
           axisY: 0,

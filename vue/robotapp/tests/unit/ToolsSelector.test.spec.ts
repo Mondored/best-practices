@@ -44,10 +44,8 @@ describe('ToolsSelector.vue component tests', () => {
     wrapper.setData({ selectedId: 0});
 
     const selector = wrapper.find('select').findAll('option');
-    selector.at(1).setSelected(); // .vm.$emit('selectedToolId', 'test');
+    selector.at(1).setSelected();
     
-    expect(wrapper.vm.$data.selectedToolName).toBe('');
-    //await selector.trigger('click');
-    
+    expect(wrapper.vm.$data.selectedToolName).toBe('');    
   });
 });

@@ -1,4 +1,5 @@
 import { GripperState } from "@/data/tool";
+import { CommandType } from '@/store/types';
 
 describe('tool.ts test', () =>{
   it('test data structure Tool', () => {
@@ -14,10 +15,11 @@ describe('tool.ts test', () =>{
 
   it('test data structure ToolMove', () => {
     const testData = {
+      type: CommandType.ToolMove,
       indexId: 1,
       movement: GripperState.OPEN
     };
-    const expected = "{\"indexId\":1,\"movement\":\"Open\"}";
+    const expected = "{\"type\":\"ToolMove\",\"indexId\":1,\"movement\":\"Open\"}";
 
     expect(JSON.stringify(testData)).toEqual(expected);
     expect(testData.indexId).toBe(1);

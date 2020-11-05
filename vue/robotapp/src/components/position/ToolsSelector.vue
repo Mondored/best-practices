@@ -5,8 +5,8 @@
       <select v-if="selectIsAvailable" v-model="selectedToolName"
               @click="selectedToolId(selectedToolName)"
               data-cy="selectToolDropDown">
-        <option type="string" disabled value="default">Please select a tool</option>
-        <option type="string" v-for="(item, index) in tools"
+        <option disabled value="default">Please select a tool</option>
+        <option :value="item.name" v-for="(item, index) in tools"
           :key="index">{{item.name}}</option>
       </select>
 
