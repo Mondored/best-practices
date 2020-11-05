@@ -10,7 +10,7 @@
               data-cy="commandSteps">{{command}}</li>
         </ul>
       </div>
-      <button class="myButton" @click="runCmds()" data-cy="runCommandSteps">Run</button>
+      <button class="myButton" :disabled="isDisabled()" @click.prevent="runCommands()" data-cy="runCommandSteps">Run</button>
     </div>
   </div>
 </template>
@@ -21,6 +21,11 @@ import { GETTERS, ACTIONS } from '@/store/store.const';
 import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
+  data() {
+    return {
+      disabledt: true,
+    }
+  },
   computed: {
     ...mapGetters({
       commandToRun: GETTERS.GET_COMMAND_TO_RUN,
@@ -31,10 +36,11 @@ export default Vue.extend({
     ...mapActions({
       runCommands: ACTIONS.RUN_COMMANDS
     }),
-    runCmds() {
+    isDisabled(): boolean {
       if (this.selectedTool !== ''){
-        this.runCommands();
+        return this.disabledt = false;
       }
+      return this.disabledt = true;
     }
   }
 })
