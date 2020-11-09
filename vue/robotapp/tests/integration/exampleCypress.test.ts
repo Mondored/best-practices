@@ -1,7 +1,7 @@
 describe('TestProject', () => {
 
   beforeEach(function() {
-    cy.visit('http://localhost:8080');
+    cy.visit('http://localhost:8082');
   });
 
   it('Select and deselect a tool from a dropDown list', () => {
@@ -85,7 +85,7 @@ describe('TestProject', () => {
       .select('Close').should('have.value', 'Close');
     cy.get('[data-cy=selectGripperCommand]').click();
 
-    cy.get('[data-cy=runCommandSteps]').click().wait(5000);
+    cy.get('[data-cy=runCommandSteps]').click().wait(8000);
 
     cy.get('[data-cy=jointElements]').contains('Joint1')
       .find('input').filter('[data-cy=jointAxisX]')
